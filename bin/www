@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+var debug = require('debug')('ccac_admin');
+var app = require('../main');
+
+app.set('port', process.env.PORT || 3100);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
