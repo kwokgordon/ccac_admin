@@ -1,5 +1,5 @@
 module.exports = {
-	
+
 	'aws' : {
 		's3' : {
 			'bucket': 'calgarychinesealliancechurch',

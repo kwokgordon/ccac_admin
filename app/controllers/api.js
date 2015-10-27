@@ -1,5 +1,4 @@
 var path = require('path');
-var configSecret = require(path.join(__basedir, 'config/secret.js'));
 
 var Sermon = require(path.join(__basedir, 'app/models/sermons'));
 
