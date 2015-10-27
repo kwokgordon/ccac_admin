@@ -35,7 +35,6 @@ app.use(express.static(path.join(__basedir, 'public')));
 ////////////////////////////////////////////////////////////////////
 // Routes
 
-require(path.join(__basedir, 'app/controllers/api'))(app);
 require(path.join(__basedir, 'app/controllers/routes'))(app);
 
 ////////////////////////////////////////////////////////////////////
