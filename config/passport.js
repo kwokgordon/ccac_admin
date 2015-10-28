@@ -1,5 +1,5 @@
 var path = require('path');
-var GoogleStrategy = require('passport-google').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // load User model
 var User = require(path.join(__basedir, 'app/models/user'));
@@ -25,7 +25,7 @@ module.exports = function(passport) {
 	// code for signup (use('local-signup', new LocalStategy))
 	// code for facebook (use('facebook', new FacebookStrategy))
 	// code for twitter (use('twitter', new TwitterStrategy))
-
+	
 	// =========================================================================
 	// GOOGLE ==================================================================
 	// =========================================================================
@@ -33,10 +33,10 @@ module.exports = function(passport) {
 
 		clientID        : configAuth.googleAuth.clientID,
 		clientSecret    : configAuth.googleAuth.clientSecret,
-		callbackURL     : configAuth.googleAuth.callbackURL,
-
+		callbackURL     : configAuth.googleAuth.callbackURL
 	},
-	function(token, refreshToken, profile, done) {
+	function(accessToken, refreshToken, profile, done) {
+				console.log("I am here");
 
 		// make the code asynchronous
 		// User.findOne won't fire until we have all our data back from Google
@@ -57,7 +57,7 @@ module.exports = function(passport) {
 
 					// set all of the relevant information
 					newUser.google.id    = profile.id;
-					newUser.google.token = token;
+					newUser.google.token = accessToken;
 					newUser.google.name  = profile.displayName;
 					newUser.google.email = profile.emails[0].value; // pull the first email
 

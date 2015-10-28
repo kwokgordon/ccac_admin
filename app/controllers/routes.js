@@ -29,19 +29,18 @@ module.exports = function(app, passport) {
     // =====================================
     // GOOGLE ROUTES =======================
     // =====================================
-    // send to google to do the authentication
-    // profile gets us their basic information including their name
-    // email gets their emails
-    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get('/auth/google', 
+		passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' })
+	);
 
     // the callback after google has authenticated the user
-    app.get('/auth/google/callback',
-		passport.authenticate('google', {
-			successRedirect : '/profile',
-			failureRedirect : '/'
-		})
-	);	
-
+	app.get('/auth/google/callback', 
+		passport.authenticate('google', { failureRedirect: '/' }), 
+		function(req, res) {
+			// Successful authentication
+			res.redirect('/');
+		}
+	);
 }
 
 // route middleware to make sure a user is logged in

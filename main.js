@@ -9,6 +9,8 @@ var namespace = require('express-namespace');
 var mongoose = require('mongoose');
 var ejs = require('ejs');
 var passport = require('passport');
+var flash = require('connect-flash');
+var session = require('express-session');
 
 var app = express();
 
@@ -36,6 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__basedir, 'public')));
 
 // require for passport
+require(path.join(__basedir, 'config/passport.js'))(passport); // pass passport for configuration
 app.use(session({ secret: 'calgarychinesealliancechurch' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
