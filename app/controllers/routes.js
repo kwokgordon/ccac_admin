@@ -6,7 +6,7 @@ var s3 = new AWS.S3();
 /////////////////////////////////////////////////////////////////////////////
 // routing
 
-module.exports = function(app) {
+module.exports = function(app, passport) {
 
 	// Welcome page
 	app.get('/', function(req, res) {
@@ -25,7 +25,7 @@ module.exports = function(app) {
         res.redirect('/');
     });	
 
-/*	
+
     // =====================================
     // GOOGLE ROUTES =======================
     // =====================================
@@ -41,7 +41,7 @@ module.exports = function(app) {
 			failureRedirect : '/'
 		})
 	);	
-*/
+
 }
 
 // route middleware to make sure a user is logged in

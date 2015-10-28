@@ -1,15 +1,15 @@
 var development = {
 	'googleAuth' : {
-		'clientID'      : '',
-		'clientSecret'  : '',
+		'clientID'      : '309887982453-rsvvdnv8i8s5kdqlg6secruves71pl8r.apps.googleusercontent.com',
+		'clientSecret'  : 'g_Rev9TPYXmFZp5EqfE8chop',
 		'callbackURL'   : 'http://localhost:8080/auth/google/callback'
 	}
 };
 
 var production = {
 	'googleAuth' : {
-		'clientID'      : '',
-		'clientSecret'  : '',
+		'clientID'      : '309887982453-rsvvdnv8i8s5kdqlg6secruves71pl8r.apps.googleusercontent.com',
+		'clientSecret'  : 'g_Rev9TPYXmFZp5EqfE8chop',
 		'callbackURL'   : 'http://localhost:8080/auth/google/callback'
 	}
 };

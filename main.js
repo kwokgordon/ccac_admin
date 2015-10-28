@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var namespace = require('express-namespace');
 var mongoose = require('mongoose');
 var ejs = require('ejs');
+var passport = require('passport');
 
 var app = express();
 
@@ -16,6 +17,8 @@ console.log("Environment: " + process.env.NODE_ENV);
 global.__basedir = __dirname;
 var configSecret = require(path.join(__basedir, 'config/secret.js'));
 var db = require(path.join(__basedir, 'config/db.js'));
+
+console.log("Mongo: " + db.db.mongo);
 
 // DB config
 mongoose.connect(db.db.mongo);
@@ -32,10 +35,16 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__basedir, 'public')));
 
+// require for passport
+app.use(session({ secret: 'calgarychinesealliancechurch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 ////////////////////////////////////////////////////////////////////
 // Routes
 
-require(path.join(__basedir, 'app/controllers/routes'))(app);
+require(path.join(__basedir, 'app/controllers/routes'))(app, passport);
 
 ////////////////////////////////////////////////////////////////////
 
