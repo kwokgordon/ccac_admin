@@ -36,8 +36,6 @@ module.exports = function(passport) {
 		callbackURL     : configAuth.googleAuth.callbackURL
 	},
 	function(accessToken, refreshToken, profile, done) {
-				console.log("I am here");
-
 		// make the code asynchronous
 		// User.findOne won't fire until we have all our data back from Google
 		process.nextTick(function() {
@@ -48,11 +46,10 @@ module.exports = function(passport) {
 					return done(err);
 
 				if (user) {
-
 					// if a user is found, log them in
 					return done(null, user);
 				} else {
-					// if the user isnt in our database, create a new user
+					// if the user not in our database, create a new user
 					var newUser = new User();
 
 					// set all of the relevant information
@@ -60,6 +57,7 @@ module.exports = function(passport) {
 					newUser.google.token = accessToken;
 					newUser.google.name  = profile.displayName;
 					newUser.google.email = profile.emails[0].value; // pull the first email
+					newUser.role = "user";
 
 					// save the user
 					newUser.save(function(err) {

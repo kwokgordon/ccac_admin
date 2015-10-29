@@ -7,7 +7,9 @@ var userSchema = mongoose.Schema({
 		token: String,
 		email: String,
 		name: String
-	}
+	},
+	role: String,
+	permissions: [String]
 });
 
 module.exports = mongoose.model('User', userSchema);

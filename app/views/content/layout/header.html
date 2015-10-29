@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- META -->
+		<title>CCAC Admin</title>
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta charset="UTF-8" />
+
+		<!-- STYLE -->
+		<link rel="shortcut icon" type="image/ico" href="/img/favicon.ico" />
+		<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+		
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<img class="header-logo left" src="/img/logo.png" height="80" />
+				<div class="header-row1 right">
+					<ul class="translate nav navbar-nav pull-right">
+						<li id="welcome"><a href="#">Welcome <%= user.google.name %></a></li>
+					</ul>
+				</div>
+				<div class="header-row2 right">
+					<ul class="menu nav navbar-nav pull-right">
+						<li id="profile"><a href="/profile">Profile</a></li>
+						<li id="logout"><a href="/logout">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+

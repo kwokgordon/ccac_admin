@@ -1,7 +1,7 @@
 var development = {
 	'googleAuth' : {
 		'clientID'      : '309887982453-rsvvdnv8i8s5kdqlg6secruves71pl8r.apps.googleusercontent.com',
-		'clientSecret'  : 'g_Rev9TPYXmFZp5EqfE8chop',
+		'clientSecret'  : 'hA6OjROzelJAUunFTJNdZuK_',
 		'callbackURL'   : 'http://localhost:3100/auth/google/callback'
 	}
 };
@@ -9,7 +9,7 @@ var development = {
 var production = {
 	'googleAuth' : {
 		'clientID'      : '309887982453-rsvvdnv8i8s5kdqlg6secruves71pl8r.apps.googleusercontent.com',
-		'clientSecret'  : 'g_Rev9TPYXmFZp5EqfE8chop',
+		'clientSecret'  : 'hA6OjROzelJAUunFTJNdZuK_',
 		'callbackURL'   : 'http://localhost:3100/auth/google/callback'
 	}
 };
