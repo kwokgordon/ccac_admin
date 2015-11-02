@@ -1,11 +1,46 @@
 <% include ./layout/header.html %>
 
+<script src="/js/angular/content/pages.js"></script>
 
-<div class="container">
+<div class="container" ng-app="ccacAdminApp" ng-controller="PagesController">
+
+<div ng-init="role = '<%= user.role %>'" ></div>
+<div ng-init="permissions = '<%= user.permissions %>'" ></div>
+<div ng-init="init()" ></div>
+
 <% include ./sidebar.html %>
 
 	<div class="sidepage">
-		<h2>Pages</h2>
+		<h2 class="well">Pages</h2>
+		
+		<div ng-if="pages_admin" class="row">
+			<button class="col-md-3 btn btn-primary" ng-click="addPage()">Add Page</button>
+		</div>
+		
+		<br />
+
+		<table class="table table-borderd table-hover">
+			<tr>
+				<th ng-if="pages_admin"></th>
+				<th>Path</th>
+				<th>Google Calendar</th>
+				<th>eng</th>
+				<th>cht</th>
+				<th>chs</th>
+			</tr>
+			<tr ng-repeat="page in pages">
+				<td ng-if="pages_admin">
+					<span class="glyphicon glyphicon-pencil" ng-click="editPage(page)" ></span>
+					<span class="glyphicon glyphicon-trash" ng-click="deletePage(page)" ></span>
+				</td>
+				<td>{{page.path}}</td>
+				<td>{{page.google_calendar}}</td>
+				<td><a href="https://docs.google.com/document/d/{{page.eng.doc_id}}/edit" class="glyphicon glyphicon-pencil" target="_blank" ng-if="pages_edit && page.eng.doc_id != '' && page.eng.doc_id != undefined">ENG</a></td>
+				<td><a href="https://docs.google.com/document/d/{{page.cht.doc_id}}/edit" class="glyphicon glyphicon-pencil" target="_blank" ng-if="pages_edit && page.cht.doc_id != '' && page.cht.doc_id != undefined">CHT</a></td>
+				<td><a href="https://docs.google.com/document/d/{{page.chs.doc_id}}/edit" class="glyphicon glyphicon-pencil" target="_blank" ng-if="pages_edit && page.chs.doc_id != '' && page.chs.doc_id != undefined">CHS</a></td>
+			</tr>
+		</table>
+		
 	</div>
 </div>
 

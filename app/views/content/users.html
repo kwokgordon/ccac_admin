@@ -1,0 +1,41 @@
+<% include ./layout/header.html %>
+
+<script src="/js/angular/content/users.js"></script>
+
+<div class="container" ng-app="ccacAdminApp" ng-controller="UsersController">
+<div ng-init="init()" ></div>
+
+<% include ./sidebar.html %>
+
+	<div class="sidepage">
+		<h2 class="well">Admin</h2>
+		
+		<table class="table table-borderd table-hover">
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Permissions</th>
+				<th></th>
+			</tr>
+			<tr ng-repeat="user in users">
+				<td>{{ user.google.name }}</td>
+				<td>{{ user.google.email }}</td>
+				<td>{{ user.role }}</td>
+				<td>
+					<ul>
+						<li ng-repeat="perm in user.permissions">
+							{{ perm }}
+						</li>
+					</ul>
+				</td>
+				<td>
+					<span class="glyphicon glyphicon-pencil" ng-click="editUser(user)" ></span>
+					<span class="glyphicon glyphicon-trash" ng-click="deleteUser(user)" ></span>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<% include ./layout/footer.html %>

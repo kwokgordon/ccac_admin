@@ -12,6 +12,11 @@
 		<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css">
+
+		<script src="/bower/jquery/dist/jquery.min.js"></script>
+		<script src="/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/bower/angular/angular.min.js"></script>
+		<script src="/bower/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		
 	</head>
 	<body>
@@ -20,7 +25,7 @@
 				<img class="header-logo left" src="/img/logo.png" height="80" />
 				<div class="header-row1 right">
 					<ul class="translate nav navbar-nav pull-right">
-						<li id="welcome"><a href="#">Welcome <%= user.google.name %></a></li>
+						<li id="welcome">Welcome <%= user.google.name %></li>
 					</ul>
 				</div>
 				<div class="header-row2 right">

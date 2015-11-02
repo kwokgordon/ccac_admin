@@ -49,6 +49,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 require(path.join(__basedir, 'app/controllers/routes'))(app, passport);
 require(path.join(__basedir, 'app/controllers/content'))(app, passport);
+require(path.join(__basedir, 'app/controllers/api/users'))(app, passport);
+require(path.join(__basedir, 'app/controllers/api/pages'))(app, passport);
 
 ////////////////////////////////////////////////////////////////////
 

@@ -1,0 +1,41 @@
+<div class="modal-header">
+	<span ng-if="modal == 'add'">Add Page</span>
+	<span ng-if="modal == 'edit'">Edit Page</span>
+</div>
+<div class="modal-body">
+	<div>
+		<div class="row">
+			<span class="col-md-3">Path: </span>
+			<input type="text" ng-model="page.path" ng-change="update_lang_path()" />
+		</div>
+		<p />
+		<div class="row">
+			<span class="col-md-3">ENG Path: </span>
+			<input type="text" ng-model="page.eng.lang_path" disabled />
+			<br />
+			<span class="col-md-3">ENG Doc_id: </span>
+			<input type="text" ng-model="page.eng.doc_id" />
+		</div>
+		<p />
+		<div class="row">
+			<span class="col-md-3">CHT Path: </span>
+			<input type="text" ng-model="page.cht.lang_path" disabled />
+			<br />
+			<span class="col-md-3">CHT Doc_id: </span>
+			<input type="text" ng-model="page.cht.doc_id" />
+		</div>
+		<p />
+		<div class="row">
+			<span class="col-md-3">CHS Path: </span>
+			<input type="text" ng-model="page.chs.lang_path" disabled />
+			<br />
+			<span class="col-md-3">CHS Doc_id: </span>
+			<input type="text" ng-model="page.chs.doc_id" />
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-if="modal == 'add'" ng-click="add()">Add</button>
+	<button class="btn btn-warning" ng-if="modal == 'edit'" ng-click="edit()">Edit</button>
+	<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+</div>

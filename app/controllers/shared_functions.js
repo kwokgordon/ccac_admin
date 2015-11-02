@@ -13,15 +13,23 @@ module.exports = {
 		// if they aren't redirect them to the home page
 		res.redirect('/');
 	},
-	checkPermission: function (req, res, next) {
+	checkPermission: function(permissions) { 
+		return function (req, res, next) {
 
-		// check permission to the page
-		if (req.user.role == "admin" || req.user.permissions.indexOf(req.params.access) != -1)
-			return next();
+			var access = false;
 		
-		res.redirect('/no_permission');
+			for (i = 0; i < permissions.length; i++) {
+				// check permission to the page
+				if (req.user.role == "admin" || req.user.permissions.indexOf(permissions[i]) != -1)
+					access = true;
+			}
+			
+			if (access) 
+				return next();
+			else
+				res.redirect('/no_permission');
+		}
 	}
-
 
 }
 

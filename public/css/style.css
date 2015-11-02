@@ -28,7 +28,7 @@ li.current a, li a:hover {
   background-color: #B0B0B0;  
 }
 
-.translate>li>a {
+.translate>li {
 	padding: 5px;
 	font-size: 10pt;
 	line-height: 20px;

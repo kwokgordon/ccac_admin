@@ -13,8 +13,20 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/profile/:access', shared.isLoggedIn, shared.checkPermission, function(req, res) {
-        res.render('content/' + req.params.access, {
+    app.get('/profile/users', shared.isLoggedIn, shared.checkPermission(["users"]), function(req, res) {
+        res.render('content/users', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+
+    app.get('/profile/pages', shared.isLoggedIn, shared.checkPermission(["pages_admin","pages_edit"]), function(req, res) {
+        res.render('content/pages', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+
+    app.get('/profile/sermons', shared.isLoggedIn, shared.checkPermission(["sermons"]), function(req, res) {
+        res.render('content/sermons', {
             user : req.user // get the user out of session and pass to template
         });
     });
@@ -24,6 +36,6 @@ module.exports = function(app, passport) {
             user : req.user // get the user out of session and pass to template
         });
     });
-	
+
 }
 
