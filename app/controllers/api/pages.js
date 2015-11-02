@@ -39,6 +39,7 @@ module.exports = function(app, passport) {
 				
 				if (page) {
 					page.path = add_page.path;
+					page.google_calendar = add_page.google_calendar;
 					page.eng.lang_path = add_page.eng.lang_path;
 					page.eng.doc_id = add_page.eng.doc_id;
 					page.cht.lang_path = add_page.cht.lang_path;
@@ -52,6 +53,7 @@ module.exports = function(app, passport) {
 				} else {
 					Page.create({
 						path: add_page.path,
+						google_calendar: add_page.google_calendar,
 						eng: {
 							lang_path: add_page.eng.lang_path,
 							doc_id: add_page.eng.doc_id

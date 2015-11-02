@@ -17,7 +17,6 @@ var app = express();
 console.log("Environment: " + process.env.NODE_ENV);
 
 global.__basedir = __dirname;
-var configSecret = require(path.join(__basedir, 'config/secret.js'));
 var db = require(path.join(__basedir, 'config/db.js'));
 
 console.log("Mongo: " + db.db.mongo);

@@ -10,27 +10,16 @@ module.exports = function(app, passport) {
 
 	app.namespace('/api', shared.isLoggedIn, shared.checkPermission(["sermons"]), function() {
 		
-/*
 		app.get('/aws_key', function(req, res) {
 			res.json({
 				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 				secretAccessKey: process.env.AWS_SECRET_KEY			
 			});
 		});
-*/	
 
 		app.post('/getSermons', function(req, res) {
 			var congregation = req.body.congregation;
-			var last = { sermon_date: '9999' };
-			var limit = 10;
-			
-			if(req.body.last) 
-				last = req.body.last;
-			
-			if(req.body.limit) 
-				limit = req.body.limit;
-				
-			Sermon.find({congregation: congregation, sermon_date: { $lt: last.sermon_date }}, {}, {sort: {sermon_date:-1}, limit: limit}, function(err, sermons) {
+			Sermon.find({congregation: congregation}, {}, {sort: {sermon_date:-1}}, function(err, sermons) {
 				if (err)
 					res.send(err);
 				
@@ -61,7 +50,25 @@ module.exports = function(app, passport) {
 
 					res.json(sermon);
 				} else {
-					create_sermon(req, res);
+					Sermon.create({
+						congregation: req.body.congregation,
+						sermon_date: req.body.sermon_date,
+						title: req.body.title,
+						sermon: req.body.sermon,
+						bulletin: req.body.bulletin,
+						life_group: req.body.life_group,
+						ppt: req.body.ppt
+					}, function(err, sermon) {
+						if (err)
+							res.send(err)
+							
+						if(req.body.insert != undefined) {
+							sermon.insert.push(req.body.insert);
+							sermon.save();
+						}
+
+						res.json(sermon);
+					});
 				}
 			});
 		});
@@ -84,24 +91,3 @@ module.exports = function(app, passport) {
 
 }
 
-function create_sermon(req, res) {
-	Sermon.create({
-		congregation: req.body.congregation,
-		sermon_date: req.body.sermon_date,
-		title: req.body.title,
-		sermon: req.body.sermon,
-		bulletin: req.body.bulletin,
-		life_group: req.body.life_group,
-		ppt: req.body.ppt
-	}, function(err, sermon) {
-		if (err)
-			res.send(err)
-			
-		if(req.body.insert != undefined) {
-			sermon.insert.push(req.body.insert);
-			sermon.save();
-		}
-
-		res.json(sermon);
-	});
-}

@@ -1,20 +1,87 @@
 <% include ./layout/header.html %>
 
+<script src="/js/angular/content/sermons.js"></script>
 
-<div class="container">
+<div class="container" ng-app="ccacAdminApp" ng-controller="SermonsController">
+<div ng-init="init()" ></div>
+
 <% include ./sidebar.html %>
 
 	<div class="sidepage">
-	<div class="well">
-		<h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+		<h2 class="well">Sermons</h2>
 
-		<p>
-			<strong>id</strong>: <%= user.google.id %><br>
-			<strong>token</strong>: <%= user.google.token %><br>
-			<strong>email</strong>: <%= user.google.email %><br>
-			<strong>name</strong>: <%= user.google.name %>
-		</p>		
-	</div>
+		<div class="row">
+			<button class="col-md-3 btn btn-primary" ng-click="addSermon()">Add Sermon</button>
+		</div>
+		
+		<br />
+		
+		<tabset justified="true">
+			<tab ng-repeat="tab in tabs" active="tab.active" disable="tab.disabled" ng-click="getSermons(tab.title)">
+				<tab-heading>
+					<span ng-if="tab.id == 'english'">English</span>
+					<span ng-if="tab.id == 'cantonese'">Cantonese</span>
+					<span ng-if="tab.id == 'mandarin'">Mandarin</span>
+				</tab-heading>
+
+				<accordion close-others="oneAtATime"> 
+					<accordion-group ng-repeat="sermon in sermons" is-open="$first">
+						<accordion-heading ng-click="isopen=!isopen">
+							<div>
+								<span>{{sermon.sermon_date}}</span>
+								<span ng-if="sermon.title"> - {{sermon.title}}</span>
+							</div>
+						</accordion-heading>
+						<div class="row" ng-if="sermon.sermon">
+							<div class="col-md-4">
+								<span>Sermon</span>
+							</div>
+							<div class="col-md-4">
+								<button class="btn btn-default" ng-click="openAudio(sermon)">Listen</button>
+							</div>
+							<div class="col-md-4">
+								<a href="{{sermon.sermon}}" class="btn btn-default" download >Download</a>
+							</div>
+						</div>
+						<div class="row" ng-if="sermon.bulletin">
+							<div class="col-md-4">
+								<span>Bulletin</span>
+							</div>
+							<div class="col-md-4">
+								<button class="btn btn-default" ng-click="openDocs(sermon, 'bulletin')">Open</button>
+							</div>
+							<div class="col-md-4">
+								<a href="{{sermon.bulletin}}" class="btn btn-default" download >Download</a>
+							</div>
+						</div>
+						<div class="row" ng-if="sermon.ppt">
+							<div class="col-md-4">
+								<span>PPT</span>
+							</div>
+							<div class="col-md-4">
+								<button class="btn btn-default" ng-click="openDocs(sermon, 'ppt')">Open</button>
+							</div>
+							<div class="col-md-4">
+								<a href="{{sermon.ppt}}" class="btn btn-default" download >Download</a>
+							</div>
+						</div>
+						<div class="row" ng-if="sermon.life_group">
+							<div class="col-md-4">
+								<span>Life Group</span>
+							</div>
+							<div class="col-md-4">
+								<button class="btn btn-default" ng-click="openDocs(sermon, 'life_group')">Open</button>
+							</div>
+							<div class="col-md-4">
+								<a href="{{sermon.life_group}}" class="btn btn-default" download >Download</a>
+							</div>
+						</div>
+						<div style="clear: both;"></div>	
+					</accordion-group>
+				</accordion>
+			</tab>
+		</tabset>
+		
 	</div>
 </div>
 
