@@ -1,7 +1,9 @@
 var path = require('path');
 var shared = require(path.join(__basedir, 'app/controllers/shared_functions'));
 
-var Sermon = require(path.join(__basedir, 'app/models/sermons'));
+var Sermon = require(path.join(__basedir, 'app/models/sermon'));
+
+var aws_secret = require(path.join(__basedir, 'secret/aws.js'));
 
 /////////////////////////////////////////////////////////////////////////////
 // routing - admin api
@@ -12,8 +14,15 @@ module.exports = function(app, passport) {
 		
 		app.get('/aws_key', function(req, res) {
 			res.json({
-				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-				secretAccessKey: process.env.AWS_SECRET_KEY			
+				aws: {
+					s3: {
+						bucket: aws_secret.aws.s3.bucket,
+						region: aws_secret.aws.s3.region,
+						access_key: aws_secret.aws.s3.access_key
+					},
+					accessKeyId: aws_secret.aws.accessKeyId,
+					secretAccessKey: aws_secret.aws.secretAccessKey
+				}
 			});
 		});
 

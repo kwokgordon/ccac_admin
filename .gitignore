@@ -9,3 +9,7 @@
 .aws/
 
 *.log
+
+# Ignore secret files
+secret/
+secret/*

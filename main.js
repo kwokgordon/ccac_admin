@@ -11,6 +11,7 @@ var ejs = require('ejs');
 var passport = require('passport');
 var flash = require('connect-flash');
 var session = require('express-session');
+var cors = require('cors');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(cors());
 app.use(express.static(path.join(__basedir, 'public')));
 
 // require for passport
@@ -50,6 +52,7 @@ require(path.join(__basedir, 'app/controllers/routes'))(app, passport);
 require(path.join(__basedir, 'app/controllers/content'))(app, passport);
 require(path.join(__basedir, 'app/controllers/api/users'))(app, passport);
 require(path.join(__basedir, 'app/controllers/api/pages'))(app, passport);
+require(path.join(__basedir, 'app/controllers/api/sermons'))(app, passport);
 
 ////////////////////////////////////////////////////////////////////
 

@@ -17,6 +17,7 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 	};
 	
 	$scope.getSermons = function(congregation) {
+		$log.info($scope);
 		$scope.congregation = congregation;
 
 		$http.post('/api/getSermons', {congregation: $scope.congregation})
@@ -36,13 +37,15 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 			templateUrl: '/ng-template/content/sermons/sermonModal.html',
 			controller: 'AddSermonModalController'
 		});
+
+		addSermonModalInstance.result.then(function(sermon) {
+			$scope.getSermons($scope.congregation);
+		});		
 	}
 
 })
 
-ccac.controller('AddSermonModalController', function($scope, $modalInstance) {
-
-	$scope.sermon = {};
+ccac.controller('AddSermonModalController', function($scope, $http, $log, $modalInstance) {
 
 	$scope.accordion = {};
 	$scope.accordion.sermon = false;
@@ -52,7 +55,8 @@ ccac.controller('AddSermonModalController', function($scope, $modalInstance) {
 	$scope.accordion.insert = false;
 
 	$scope.formData = {};
-	
+	$scope.service = {};
+		
 	$scope.congregations = ['English', 'Cantonese', 'Mandarin'];
 	$scope.congregation = $scope.congregations[0];	
 	$scope.dt = null;
@@ -70,8 +74,9 @@ ccac.controller('AddSermonModalController', function($scope, $modalInstance) {
 		formatYear: 'yy',
 		startingDay: 0
 	};
-
+		
 	$scope.upload = function(str) {
+	
 		if(!$scope.dt) {
 			// No Date Selected
 			alert('No Date Selected');
@@ -82,15 +87,15 @@ ccac.controller('AddSermonModalController', function($scope, $modalInstance) {
 			.success(function(data) {
 				// Configure The S3 Object 
 				AWS.config.update({ 
-					accessKeyId: data.accessKeyId, 
-					secretAccessKey: data.secretAccessKey,
+					accessKeyId: data.aws.accessKeyId, 
+					secretAccessKey: data.aws.secretAccessKey,
 					httpOptions: {
 						timeout: 600000
 					}
 				});
-				AWS.config.region = $scope.s3_region;
-				var bucket = new AWS.S3({ params: { Bucket: $scope.s3_bucket } });
-				
+				AWS.config.region = data.aws.s3.region;
+				var bucket = new AWS.S3({ params: { Bucket: data.aws.s3.bucket } });
+								
 				if($scope[str]) {
 					// Title
 					if(str == "title") {
@@ -128,6 +133,10 @@ ccac.controller('AddSermonModalController', function($scope, $modalInstance) {
 								// There Was An Error With Your S3 Config
 								console.log(err, err.stack);
 								alert(err.message);
+								
+								$log.info(AWS.config);
+								$log.info(bucket);
+								
 								return false;
 							}
 							else {
@@ -190,21 +199,30 @@ ccac.controller('AddSermonModalController', function($scope, $modalInstance) {
 			}
 		}
 	}
-
-	$scope.pull_logs = function() {
-		$log.info($scope);
-
-		$http.get('/api/aws_key')
-			.success(function(data) {
-				$log.info(data);
-			})
-			.error(function(data) {
-				$log.info('Error: ' + data);
-			});		
-	}
 	
-	$scope.cancel = function() {
-		$modalInstance.dismiss('cancel');
+	$scope.done = function() {
+		$modalInstance.close('done');
+	};
+})
+.directive('file', function() {
+	return {
+		restrict: 'AE',
+		scope: {
+			file: '@',
+			filetype: '@'
+		},
+		link: function(scope, el, attrs){
+			el.bind('change', function(event){
+				var files = event.target.files;
+				var file = files[0];
+
+				scope.file = file;
+				scope.$parent.file = file;
+				scope.$parent.filetype = scope.filetype;
+				scope.$parent[scope.filetype] = scope.file;
+				scope.$apply();				
+			});
+		}
 	};
 });
 

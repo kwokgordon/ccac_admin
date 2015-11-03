@@ -19,130 +19,105 @@
 		</div>
 	</div>
 
-	<accordion> 
-		<accordion-group is-open="accordion.sermon">
-			<accordion-heading>
-				<i ng-class="{'glyphicon glyphicon-chevron-up':accordion.sermon,'glyphicon glyphicon-chevron-down':!accordion.sermon}"></i>
-				Upload Sermon
-			</accordion-heading>
-			<div>
-				<form>
-					<div class="form-group">
-						<div class="row">
-							Title: <input type="input" class="input-md text-center" placeholder="File name" ng-model="title" ></input>
-						</div>
-						<div class="row">
-							<button type="submit" class="btn btn-primary btn-md" ng-click="upload('title')">Upload Title</button> 
-							Progress {{progress_value}} %
-						</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Upload Sermon</div>
+		<div class="panel-body">
+			<form>
+				<div class="form-group">
+					<div class="row">
+						Title: <input type="input" class="input-md text-center" placeholder="File name" ng-model="title" ></input>
 					</div>
-				</form>
-				<form>
-					<div class="form-group">
-						<div class="row">
-							File: <input name="file" type="file" file filetype="sermon" />
-						</div>
-						<div class="row">
-							<button type="submit" class="btn btn-primary btn-md" ng-click="upload('sermon')">Upload Sermon</button> 
-							Progress {{progress_value}} %
-						</div>
+					<div class="row">
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('title')">Upload Title</button> 
+						Progress {{progress_value}} %
 					</div>
-				</form>
-			</div>
-		</accordion-group>
-	</accordion>
+				</div>
+			</form>
+			<form>
+				<div class="form-group">
+					<div class="row">
+						File: <input name="file" type="file" file filetype="sermon" />
+					</div>
+					<div class="row">
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('sermon')">Upload Sermon</button> 
+						Progress {{progress_value}} %
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">Upload Bulletin</div>
+		<div class="panel-body">
+			<form>
+				<div class="form-group">
+					<div class="row">
+						File: <input name="file" type="file" file filetype="bulletin" />
+					</div>
+					<div class="row">
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('bulletin')">Upload Bulletin</button> 
+						Progress {{progress_value}} %
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
-	<accordion> 
-		<accordion-group is-open="accordion.bulletin">
-			<accordion-heading>
-				<i ng-class="{'glyphicon glyphicon-chevron-up':accordion.bulletin,'glyphicon glyphicon-chevron-down':!accordion.bulletin}"></i>
-				Upload Bulletin
-			</accordion-heading>
-			<div>
-				<form>
-					<div class="form-group">
-						<div class="row">
-							File: <input name="file" type="file" file filetype="bulletin" />
-						</div>
-						<div class="row">
-							<button type="submit" class="btn btn-primary btn-md" ng-click="upload('bulletin')">Upload Bulletin</button> 
-							Progress {{progress_value}} %
-						</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Upload Life Group</div>
+		<div class="panel-body">
+			<form>
+				<div class="form-group">
+					<div class="row">
+						File: <input name="file" type="file" file filetype="life_group" />
 					</div>
-				</form>
-			</div>
-		</accordion-group>
-	</accordion>
+					<div class="row">
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('life_group')">Upload Life Group</button> 
+						Progress {{progress_value}} %
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
-	<accordion> 
-		<accordion-group is-open="accordion.life_group">
-			<accordion-heading>
-				<i ng-class="{'glyphicon glyphicon-chevron-up':accordion.life_group,'glyphicon glyphicon-chevron-down':!accordion.life_group}"></i>
-				Upload Life Group
-			</accordion-heading>
-			<div>
-				<form>
-					<div class="form-group">
-						<div class="row">
-							File: <input name="file" type="file" file filetype="life_group" />
-						</div>
-						<div class="row">
-							<button type="submit" class="btn btn-primary btn-md" ng-click="upload('life_group')">Upload Life Group</button> 
-							Progress {{progress_value}} %
-						</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Upload PowerPoint</div>
+		<div class="panel-body">
+			<form>
+				<div class="form-group">
+					<div class="row">
+						File: <input name="file" type="file" file filetype="ppt" />
 					</div>
-				</form>
-			</div>
-		</accordion-group>
-	</accordion>
+					<div class="row">
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('ppt')">Upload PowerPoint</button> 
+						Progress {{progress_value}} %
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
-	<accordion> 
-		<accordion-group is-open="accordion.ppt">
-			<accordion-heading>
-				<i ng-class="{'glyphicon glyphicon-chevron-up':accordion.ppt,'glyphicon glyphicon-chevron-down':!accordion.ppt}"></i>
-				Upload PowerPoint
-			</accordion-heading>
-			<div>
-				<form>
-					<div class="form-group">
-						<div class="row">
-							File: <input name="file" type="file" file filetype="ppt" />
-						</div>
-						<div class="row">
-							<button type="submit" class="btn btn-primary btn-md" ng-click="upload('ppt')">Upload PowerPoint</button> 
-							Progress {{progress_value}} %
-						</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Upload Inserts</div>
+		<div class="panel-body">
+			<form>
+				<div class="form-group">
+					<div class="row">
+						File: <input name="file" type="file" file filetype="insert" />
 					</div>
-				</form>
-			</div>
-		</accordion-group>
-	</accordion>
-
-	<accordion> 
-		<accordion-group is-open="accordion.insert">
-			<accordion-heading>
-				<i ng-class="{'glyphicon glyphicon-chevron-up':accordion.insert,'glyphicon glyphicon-chevron-down':!accordion.insert}"></i>
-				Upload Inserts
-			</accordion-heading>
-			<div>
-				<form>
-					<div class="form-group">
-						<div class="row">
-							File: <input name="file" type="file" file filetype="insert" />
-						</div>
-						<div class="row">
-							<button type="submit" class="btn btn-primary btn-md" ng-click="upload('insert')" ng-disabled="true">Upload Insert </button> 
-							Progress {{progress_value}} %
-						</div>
+					<div class="row">
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('insert')" ng-disabled="true">Upload Insert </button> 
+						Progress {{progress_value}} %
 					</div>
-				</form>
-			</div>
-		</accordion-group>
-	</accordion>
+				</div>
+			</form>
+		</div>
+	</div>
 	
 	<button class="btn btn-primary btn-md" ng-click="upload_all()" ng-disabled="true">Upload All</button>
 
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="cancel()">Done</button>
+	<button class="btn btn-primary" ng-click="done()">Done</button>
 </div>
