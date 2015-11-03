@@ -17,7 +17,6 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 	};
 	
 	$scope.getSermons = function(congregation) {
-		$log.info($scope);
 		$scope.congregation = congregation;
 
 		$http.post('/api/getSermons', {congregation: $scope.congregation})
@@ -55,7 +54,6 @@ ccac.controller('AddSermonModalController', function($scope, $http, $log, $modal
 	$scope.accordion.insert = false;
 
 	$scope.formData = {};
-	$scope.service = {};
 		
 	$scope.congregations = ['English', 'Cantonese', 'Mandarin'];
 	$scope.congregation = $scope.congregations[0];	
