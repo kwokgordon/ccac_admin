@@ -1,12 +1,12 @@
 var development = {
 	'db' : {
-		'mongo': 'mongodb://52.10.32.169:27017/CCAC_DEV'
+		'mongo': 'mongodb://52.32.254.39:27017/CCAC_DEV'
 	}
 };
 
 var production = {
 	'db' : {
-		'mongo': 'mongodb://52.10.32.169:27017/CCAC'
+		'mongo': 'mongodb://52.32.254.39:27017/CCAC'
 	}
 };
 
