@@ -42,7 +42,35 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 		});		
 	}
 
-})
+	$scope.deleteSermon = function(sermon, str) {
+
+		var deleteSermonModalInstance = $modal.open({
+			templateUrl: '/ng-template/content/sermons/deleteSermonModal.html',
+			controller: 'DeleteSermonModalController',
+			resolve: {
+				sermon: function() {
+					return sermon;
+				},
+				str: function() {
+					return str;
+				}
+			}
+		});
+
+		deleteSermonModalInstance.result.then(function(formData) {
+
+			$http.post('/api/deleteSermon', formData)
+				.success(function(data) {
+					$log.info(data);
+					
+					$scope.getSermons($scope.congregation);
+				})
+				.error(function(data) {
+					$log.info("Error: " + data);
+				});
+		});		
+	};
+});
 
 ccac.controller('AddSermonModalController', function($scope, $http, $log, $modalInstance) {
 
@@ -51,7 +79,6 @@ ccac.controller('AddSermonModalController', function($scope, $http, $log, $modal
 	$scope.accordion.bulletin = false;
 	$scope.accordion.life_group = false;
 	$scope.accordion.ppt = false;
-	$scope.accordion.insert = false;
 
 	$scope.formData = {};
 		
@@ -186,7 +213,6 @@ ccac.controller('AddSermonModalController', function($scope, $http, $log, $modal
 			return;
 		}
 
-//		var temp_array = ["title","sermon","bulletin","life_group","ppt","insert"];
 		var temp_array = ["title","sermon","bulletin","life_group","ppt"];
 
 		for(var i = 0; i < temp_array.length; i++) {
@@ -222,6 +248,23 @@ ccac.controller('AddSermonModalController', function($scope, $http, $log, $modal
 			});
 		}
 	};
+});
+
+
+ccac.controller('DeleteSermonModalController', function($scope, $log, $modalInstance, sermon, str) {
+	
+	$scope.formData = {};
+	$scope.formData.sermon = sermon;
+	$scope.formData.str = str;
+
+	$scope.confirmDelete = function() {
+		$modalInstance.close($scope.formData);
+	};
+
+	$scope.cancel= function() {
+		$modalInstance.dismiss('cancel');
+	};
+	
 });
 
 

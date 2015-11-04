@@ -9,7 +9,6 @@ var sermonSchema = mongoose.Schema({
 	bulletin: String,
 	life_group: String,
 	ppt: String,
-	insert: [String]
 });
 
 module.exports = mongoose.model('Sermon', sermonSchema);

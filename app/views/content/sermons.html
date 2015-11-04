@@ -32,15 +32,20 @@
 								<span ng-if="sermon.title"> - {{sermon.title}}</span>
 							</div>
 						</accordion-heading>
+						<div class="row">
+							<div class="col-md-4">
+								<span>Remove All</span>
+							</div>
+							<div class="col-md-4">
+								<button class="btn btn-default glyphicon glyphicon-trash" ng-click="deleteSermon(sermon, 'all')">Remove All</button>
+							</div>
+						</div>
 						<div class="row" ng-if="sermon.sermon">
 							<div class="col-md-4">
 								<span>Sermon</span>
 							</div>
 							<div class="col-md-4">
-								<button class="btn btn-default" ng-click="openAudio(sermon)">Listen</button>
-							</div>
-							<div class="col-md-4">
-								<a href="{{sermon.sermon}}" class="btn btn-default" download >Download</a>
+								<button class="btn btn-default glyphicon glyphicon-trash" ng-click="deleteSermon(sermon, 'sermon')">Remove Sermon</button>
 							</div>
 						</div>
 						<div class="row" ng-if="sermon.bulletin">
@@ -48,10 +53,7 @@
 								<span>Bulletin</span>
 							</div>
 							<div class="col-md-4">
-								<button class="btn btn-default" ng-click="openDocs(sermon, 'bulletin')">Open</button>
-							</div>
-							<div class="col-md-4">
-								<a href="{{sermon.bulletin}}" class="btn btn-default" download >Download</a>
+								<button class="btn btn-default glyphicon glyphicon-trash" ng-click="deleteSermon(sermon, 'bulletin')">Remove Bulletin</button>
 							</div>
 						</div>
 						<div class="row" ng-if="sermon.ppt">
@@ -59,10 +61,7 @@
 								<span>PPT</span>
 							</div>
 							<div class="col-md-4">
-								<button class="btn btn-default" ng-click="openDocs(sermon, 'ppt')">Open</button>
-							</div>
-							<div class="col-md-4">
-								<a href="{{sermon.ppt}}" class="btn btn-default" download >Download</a>
+								<button class="btn btn-default glyphicon glyphicon-trash" ng-click="deleteSermon(sermon, 'ppt')">Remove PPT</button>
 							</div>
 						</div>
 						<div class="row" ng-if="sermon.life_group">
@@ -70,10 +69,7 @@
 								<span>Life Group</span>
 							</div>
 							<div class="col-md-4">
-								<button class="btn btn-default" ng-click="openDocs(sermon, 'life_group')">Open</button>
-							</div>
-							<div class="col-md-4">
-								<a href="{{sermon.life_group}}" class="btn btn-default" download >Download</a>
+								<button class="btn btn-default glyphicon glyphicon-trash" ng-click="deleteSermon(sermon, 'life_group')">Remove Life Group</button>
 							</div>
 						</div>
 						<div style="clear: both;"></div>	

@@ -1,44 +1,23 @@
 <div class="modal-header">
-	<span>Confirm Page Delete</span>
+	<span>Confirm Sermon Delete</span>
 </div>
 <div class="modal-body">
 	<div>
 		<div class="row">
-			<span class="col-md-3">Path: </span>
-			<span>{{page.path}}</span>
+			<span>{{formData.sermon.sermon_date}}</span>
+			<span ng-if="formData.sermon.title"> - {{formData.sermon.title}}</span>		
 		</div>
 		<p />
 		<div class="row">
-			<span class="col-md-3">Google Calendar: </span>
-			<span>{{page.google_calendar}}</span>
-		</div>
-		<p />
-		<div class="row">
-			<span class="col-md-3">ENG Path: </span>
-			<span>{{page.eng.lang_path}}</span>
-			<br />
-			<span class="col-md-3">ENG Doc_id: </span>
-			<span>{{page.eng.doc_id}}</span>
-		</div>
-		<p />
-		<div class="row">
-			<span class="col-md-3">CHT Path: </span>
-			<span>{{page.cht.lang_path}}</span>
-			<br />
-			<span class="col-md-3">CHT Doc_id: </span>
-			<span>{{page.cht.doc_id}}</span>
-		</div>
-		<p />
-		<div class="row">
-			<span class="col-md-3">CHS Path: </span>
-			<span>{{page.chs.lang_path}}</span>
-			<br />
-			<span class="col-md-3">CHS Doc_id: </span>
-			<span>{{page.chs.doc_id}}</span>
+			<span ng-if="formData.str == 'all'">All content</span>
+			<span ng-if="formData.str == 'sermon'">Sermon</span>
+			<span ng-if="formData.str == 'bulletin'">Bulletin</span>
+			<span ng-if="formData.str == 'ppt'">PowerPoint</span>
+			<span ng-if="formData.str == 'life_group'">Life Group</span>
 		</div>
 	</div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-warning" ng-click="deletePage()">Delete</button>
+	<button class="btn btn-warning" ng-click="confirmDelete()">Delete</button>
 	<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
 </div>

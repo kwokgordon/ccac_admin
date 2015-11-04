@@ -46,13 +46,7 @@ module.exports = function(app, passport) {
 					
 				if(sermon) {
 					for(var x in req.body) {
-						if(x == "insert") {
-							if(sermon.insert == undefined)
-							sermon.insert.push(req.body.insert);
-						}
-						else {
-							sermon[x] = req.body[x];
-						}
+						sermon[x] = req.body[x];
 					}
 					
 					sermon.save();
@@ -71,31 +65,38 @@ module.exports = function(app, passport) {
 						if (err)
 							res.send(err)
 							
-						if(req.body.insert != undefined) {
-							sermon.insert.push(req.body.insert);
-							sermon.save();
-						}
-
 						res.json(sermon);
 					});
 				}
 			});
 		});
 
-		app.get('/getBulletin/:congregation', function(req, res) {
-			var congregation = req.params.congregation;
+		// Sermons API - delete a sermon
+		app.post('/deleteSermon', function(req, res) {
 			
-			Sermon.findOne({congregation: congregation, bulletin: {$exists:true} }, {}, {sort: {sermon_date:-1}}, function(err, sermon) {
+			var delete_sermon = req.body.sermon;
+			var str = req.body.str;
+			
+			Sermon.findOne({congregation: delete_sermon.congregation, sermon_date: delete_sermon.sermon_date}, function(err, sermon) {
 				if (err)
 					res.send(err);
 				
-				if(sermon)
-					res.redirect(sermon.bulletin);
-				else
-					res.send("No file found");
+				if (str == "all") {
+					sermon.remove(function(err, msg) {
+						if (err) 
+							res.send(err);
+							
+						res.json(msg);
+					});
+				} else {
+					sermon[str] = undefined;
+					sermon.save();
+
+					res.json(sermon);
+				}
 			});
-		});
-		
+			
+		});		
 	});
 
 }
