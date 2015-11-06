@@ -1,0 +1,30 @@
+<div class="modal-header">
+	<span>Invitation to CCAC Admin</span>
+</div>
+<div class="modal-body">
+	<p ng-if="messages.info"><span class="alert-info">{{messages.info}}</span></p>
+
+	<div>
+		Email: <input type="input" class="input-md text-center" placeholder="email-address" ng-model="user.email" ></input>
+	</div>
+	<hr />
+	<div>
+		<span>Role: </span>
+		<div class="radio" ng-repeat="role in roles">
+			<label class="col-md-3"><input type="radio" name="{{role.role}}" ng-checked="user.role == role.role" ng-click="changeRole(role.role)">{{role.role}}</label>
+			<span>{{role.desc}}</span>
+		</div>
+	</div>
+	<hr />
+	<div>
+		<span>Permissions: </span>
+		<div class="checkbox" ng-repeat="permission in permissions">
+			<label class="col-md-3"><input type="checkbox" ng-checked="user.permissions.indexOf(permission.permissions) > -1" ng-click="changePermission(permission.permissions)">{{permission.permissions}}</label>
+			<span>{{permission.desc}}</span>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="add()">Invite</button>
+	<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+</div>

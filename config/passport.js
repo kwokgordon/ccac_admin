@@ -3,6 +3,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // load User model
 var User = require(path.join(__basedir, 'app/models/user'));
+var Invitation = require(path.join(__basedir, 'app/models/invitation'));
 
 // load the auth variables
 var configAuth = require(path.join(__basedir, 'config/auth.js'));
@@ -49,22 +50,52 @@ module.exports = function(passport) {
 					// if a user is found, log them in
 					return done(null, user);
 				} else {
-					// if the user not in our database, create a new user
-					var newUser = new User();
 
-					// set all of the relevant information
-					newUser.google.id    = profile.id;
-					newUser.google.token = accessToken;
-					newUser.google.name  = profile.displayName;
-					newUser.google.email = profile.emails[0].value; // pull the first email
-					newUser.role = "user";
-
-					// save the user
-					newUser.save(function(err) {
+					Invitation.findOne({'email': profile.emails[0].value}, function(err, invite) {
 						if (err)
-							throw err;
-						return done(null, newUser);
+							res.send(err);
+						
+						if (invite) {
+							// if the user not in our database, create a new user from the invite details
+							var newUser = new User();
+
+							// set all of the relevant information
+							newUser.google.id    = profile.id;
+							newUser.google.token = accessToken;
+							newUser.google.name  = profile.displayName;
+							newUser.google.email = profile.emails[0].value; // pull the first email
+							newUser.role = invite.role;
+							newUser.permissions = invite.permissions;
+
+							// save the user
+							newUser.save(function(err) {
+								if (err)
+									throw err;
+								
+								invite.remove();
+								
+								return done(null, newUser);
+							});
+						} else {
+							// if the user not in our database, create a new user
+							var newUser = new User();
+
+							// set all of the relevant information
+							newUser.google.id    = profile.id;
+							newUser.google.token = accessToken;
+							newUser.google.name  = profile.displayName;
+							newUser.google.email = profile.emails[0].value; // pull the first email
+							newUser.role = "user";
+
+							// save the user
+							newUser.save(function(err) {
+								if (err)
+									throw err;
+								return done(null, newUser);
+							});
+						}
 					});
+				
 				}
 			});
 		});

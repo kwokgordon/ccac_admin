@@ -8,7 +8,14 @@
 <% include ./sidebar.html %>
 
 	<div class="sidepage">
+		<p ng-if="messages.info"><span class="alert-info">{{messages.info}}</span></p>
 		<h2 class="well">Users</h2>
+
+		<div class="row">
+			<button class="col-md-3 btn btn-primary" ng-click="addUser()">Invite User</button>
+		</div>
+		
+		<br />
 		
 		<table class="table table-borderd table-hover">
 			<tr>
