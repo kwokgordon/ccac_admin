@@ -83,11 +83,12 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 		
 		addUserModalInstance.result.then(function(user) {
 			$scope.getUsers();
+			$scope.getInvitations();
 		
 			var to = user.email;
 			var subject = "Invitation to CCAC Admin";
 			var html_code = "<b>Hello</b>";
-			
+
 /*
 			$http.post('/email/sendEmail', {
 					to: to,
