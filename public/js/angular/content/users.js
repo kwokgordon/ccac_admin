@@ -6,13 +6,21 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 	$scope.roles = [];
 	$scope.permissions = [];
 	
+	$scope.invitations = [];
+	
 	$scope.messages = {};
 
 	$scope.formData = {};
 
+	$scope.tabs = [
+		{ title:'Users', id: 'users' },
+		{ title:'Invitations', id: 'invitations' },
+	];
+	
 	$scope.init = function() {
-		$scope.getUsers();
 		$scope.getRoles();
+		$scope.getUsers();
+		$scope.getInvitations();
 	};
 	
 	$scope.getUsers = function() {
@@ -20,8 +28,7 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 		$http.get('/api/getUsers')
 			.success(function(data) {
 				$log.info(data);
-				$scope.messages = data.messages;
-				$scope.users = data;
+				$scope.users = data.users;
 			})
 			.error(function(data) {
 				$log.info("Error: " + data);
@@ -33,7 +40,6 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 		$http.get('/api/getRoles')
 			.success(function(data) {
 				$log.info(data);
-				$scope.messages = data.messages;
 				
 				$scope.roles = data.filter(function(el) {
 					return el.role != undefined;
@@ -48,6 +54,18 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 			});
 	};
 
+	$scope.getInvitations = function() {
+
+		$http.get('/api/getInvitations')
+			.success(function(data) {
+				$log.info(data);
+				$scope.invitations = data.invitations;
+			})
+			.error(function(data) {
+				$log.info("Error: " + data);
+			});
+	};
+	
 	$scope.addUser = function() {
 
 		var addUserModalInstance = $modal.open({
@@ -64,11 +82,13 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 		});
 		
 		addUserModalInstance.result.then(function(user) {
+			$scope.getUsers();
 		
 			var to = user.email;
 			var subject = "Invitation to CCAC Admin";
 			var html_code = "<b>Hello</b>";
 			
+/*
 			$http.post('/email/sendEmail', {
 					to: to,
 					subject: subject,
@@ -77,13 +97,15 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 					.success(function(data) {
 						$log.info(data);
 						$scope.messages = data.messages;
+						
+						$scope.getUsers();
+						$scope.getInvitations();
 					})
 					.error(function(data) {
 						$log.info("Error: " + data);
 					});
-			
-			$scope.getUsers();
-	
+*/	
+
 		});
 	
 	};
@@ -156,6 +178,33 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 		});
 	};
 
+	$scope.deleteInvitation = function(invitation) {
+
+		var deleteInvitationModalInstance = $modal.open({
+			templateUrl: '/ng-template/content/users/deleteInvitationModal.html',
+			controller: 'DeleteInvitationModalController',
+			resolve: {
+				invitation: function() {
+					return invitation;
+				}
+			}
+		});
+		
+		deleteInvitationModalInstance.result.then(function(invitation) {
+		
+			$http.post('/api/deleteInvitation', {invitation: invitation})
+				.success(function(data) {
+					$log.info(data);
+					$scope.messages = data.messages;
+					
+					$scope.getInvitations();
+				})
+				.error(function(data) {
+					$log.info("Error: " + data);
+				});
+		});
+	};
+	
 })
 
 ccac.controller('AddUserModalController', function($scope, $http, $log, $modalInstance, roles, permissions) {
@@ -249,6 +298,18 @@ ccac.controller('DeleteUserModalController', function($scope, $modalInstance, us
 	
 	$scope.deleteUser = function() {
 		$modalInstance.close($scope.user);
+	};
+
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+});
+
+ccac.controller('DeleteInvitationModalController', function($scope, $modalInstance, invitation) {
+	$scope.invitation = invitation;
+	
+	$scope.deleteInvitation = function() {
+		$modalInstance.close($scope.invitation);
 	};
 
 	$scope.cancel = function() {

@@ -15,13 +15,15 @@ module.exports = function(app, passport) {
 		
 		// User API - to get all users in the database
 		app.get('/getUsers', function(req, res) {
-			
+
 			User.find({}, {}, {sort: {'google.name':1}}, function(err, users) {
 				if (err)
 					res.send(err);
 				
-				res.json(users);
+				var result = { users : users };
+				res.json(result);
 			});
+
 		});
 
 		// User API - to get all the available roles and permissions
@@ -35,6 +37,19 @@ module.exports = function(app, passport) {
 			});
 		});
 
+		// User API - to get all invitations in the database
+		app.get('/getInvitations', function(req, res) {
+
+			Invitation.find({}, {}, {sort: {'email':1}}, function(err, invitations) {
+				if (err)
+					res.send(err);
+				
+				var result = { invitations : invitations };
+				res.json(result);
+			});
+
+		});
+		
 		// User API - to update the user roles and permissions
 		app.post('/updateUser', function(req, res) {
 			
@@ -49,7 +64,7 @@ module.exports = function(app, passport) {
 					user.permissions = update_user.permissions;
 					
 					user.save();
-
+					
 					var result = {user: user, messages: {info: user.google.email + " updated."}};
 					res.json(result);
 				} else {
@@ -75,9 +90,26 @@ module.exports = function(app, passport) {
 					var result = {user: user, messages: {info: user.google.email + " deleted."}};
 					res.json(result);
 				});
-				
 			});
+		});
+		
+		// User API - to delete the invitation 
+		app.post('/deleteInvitation', function(req, res) {
 			
+			var delete_invitation = req.body.invitation;
+			
+			Invitation.findOne({'email': delete_invitation.email}, function(err, invitation) {
+				if (err)
+					res.send(err);
+				
+				invitation.remove(function(err, invitation) {
+					if (err)
+						res.send(err);
+
+					var result = {invitation: invitation, messages: {info: "Invitation to " + invitation.email + " deleted."}};
+					res.json(result);
+				});
+			});
 		});
 
 		// User API - to add an user invitation with role and permissions

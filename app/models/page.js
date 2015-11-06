@@ -15,7 +15,9 @@ var pageSchema = mongoose.Schema({
 	chs: {
 		lang_path: String,
 		doc_id: String
-	}
+	},
+	created_tms: { type: Date, default: Date.now },
+	updated_tms: { type: Date, default: Date.now },
 	
 });
 

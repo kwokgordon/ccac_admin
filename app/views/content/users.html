@@ -16,32 +16,67 @@
 		</div>
 		
 		<br />
+
+		<tabset justified="true">
+			<tab ng-repeat="tab in tabs" active="tab.active" disable="tab.disabled" >
+				<tab-heading>
+					<span ng-if="tab.id == 'users'">Users</span>
+					<span ng-if="tab.id == 'invitations'">Invitations</span>
+				</tab-heading>
 		
-		<table class="table table-borderd table-hover">
-			<tr>
-				<th>Name</th>
-				<th>Email</th>
-				<th>Role</th>
-				<th>Permissions</th>
-				<th></th>
-			</tr>
-			<tr ng-repeat="user in users">
-				<td>{{ user.google.name }}</td>
-				<td>{{ user.google.email }}</td>
-				<td>{{ user.role }}</td>
-				<td>
-					<ul>
-						<li ng-repeat="perm in user.permissions">
-							{{ perm }}
-						</li>
-					</ul>
-				</td>
-				<td>
-					<span class="glyphicon glyphicon-pencil" ng-click="editUser(user)" ></span>
-					<span class="glyphicon glyphicon-trash" ng-click="deleteUser(user)" ></span>
-				</td>
-			</tr>
-		</table>
+				<!-- Table for Users -->
+				<table class="table table-borderd table-hover" ng-if="tab.id == 'users'">
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Role</th>
+						<th>Permissions</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="user in users">
+						<td>{{ user.google.name }}</td>
+						<td>{{ user.google.email }}</td>
+						<td>{{ user.role }}</td>
+						<td>
+							<ul>
+								<li ng-repeat="perm in user.permissions">
+									{{ perm }}
+								</li>
+							</ul>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-pencil" ng-click="editUser(user)" ></span>
+							<span class="glyphicon glyphicon-trash" ng-click="deleteUser(user)" ></span>
+						</td>
+					</tr>
+				</table>
+
+				<!-- Table for Invitations -->
+				<table class="table table-borderd table-hover" ng-if="tab.id == 'invitations'">
+					<tr>
+						<th>Email</th>
+						<th>Role</th>
+						<th>Permissions</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="invitation in invitations">
+						<td>{{ invitation.email }}</td>
+						<td>{{ invitation.role }}</td>
+						<td>
+							<ul>
+								<li ng-repeat="perm in user.permissions">
+									{{ perm }}
+								</li>
+							</ul>
+						</td>
+						<td>
+							<span class="glyphicon glyphicon-trash" ng-click="deleteInvitation(invitation)" ></span>
+						</td>
+					</tr>
+				</table>
+				
+			</tab>
+		</tabset>
 	</div>
 </div>
 

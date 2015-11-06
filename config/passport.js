@@ -47,6 +47,9 @@ module.exports = function(passport) {
 					return done(err);
 
 				if (user) {
+					user.updated_tms = new Date();
+					user.save();
+				
 					// if a user is found, log them in
 					return done(null, user);
 				} else {
@@ -67,12 +70,12 @@ module.exports = function(passport) {
 							newUser.role = invite.role;
 							newUser.permissions = invite.permissions;
 
+							invite.remove();
+
 							// save the user
 							newUser.save(function(err) {
 								if (err)
 									throw err;
-								
-								invite.remove();
 								
 								return done(null, newUser);
 							});
@@ -85,7 +88,6 @@ module.exports = function(passport) {
 							newUser.google.token = accessToken;
 							newUser.google.name  = profile.displayName;
 							newUser.google.email = profile.emails[0].value; // pull the first email
-							newUser.role = "user";
 
 							// save the user
 							newUser.save(function(err) {

@@ -9,8 +9,11 @@ var userSchema = mongoose.Schema({
 		name: String,
 		photo: String
 	},
-	role: String,
-	permissions: [String]
+	role: { type: String, default: "user" },
+	permissions: [String],
+	created_tms: { type: Date, default: Date.now },
+	updated_tms: { type: Date, default: Date.now },
+
 });
 
 module.exports = mongoose.model('User', userSchema);

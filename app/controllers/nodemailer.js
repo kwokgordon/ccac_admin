@@ -26,7 +26,7 @@ module.exports = function(app, passport) {
 				if (err)
 					res.send(err);
 				
-				var result = {mail: mail, messages:{info:"Invite to " + req.body.to + " is sent." }};
+				var result = {mail: mail, messages:{info:"Invitation to " + req.body.to + " is sent." }};
 				res.json(result);
 			});
 		});
