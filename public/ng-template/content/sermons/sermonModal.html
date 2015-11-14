@@ -1,6 +1,9 @@
 <div class="modal-header">
 	<span ng-if="modal == 'add'">Add Sermon</span>
 	<span ng-if="modal == 'edit'">Edit Sermon</span>
+
+	<button class="btn btn-primary right" ng-click="done()">Done</button>
+	
 </div>
 <div class="modal-body">
 	<div class="row">
@@ -102,5 +105,4 @@
 
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="done()">Done</button>
 </div>

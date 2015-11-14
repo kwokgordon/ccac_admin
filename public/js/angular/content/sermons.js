@@ -30,11 +30,23 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 			});
 	};
 
+	
 	$scope.addSermon = function() {
 
+		var sermon = {};
+		sermon.title = "";
+	
 		var addSermonModalInstance = $modal.open({
 			templateUrl: '/ng-template/content/sermons/sermonModal.html',
-			controller: 'AddSermonModalController'
+			controller: 'SermonModalController',
+			resolve: {
+				modal: function() {
+					return 'add';
+				},
+				sermon: function() {
+					return undefined;
+				}
+			}
 		});
 
 		addSermonModalInstance.result.then(function(sermon) {
@@ -42,6 +54,28 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 		});		
 	}
 
+	
+	$scope.editSermon = function(sermon) {
+
+		var editSermonModalInstance = $modal.open({
+			templateUrl: '/ng-template/content/sermons/sermonModal.html',
+			controller: 'SermonModalController',
+			resolve: {
+				modal: function() {
+					return 'edit';
+				},
+				sermon: function() {
+					return sermon;
+				}
+			}
+		});
+
+		editSermonModalInstance.result.then(function(sermon) {
+			$scope.getSermons($scope.congregation);
+		});		
+	}
+
+	
 	$scope.deleteSermon = function(sermon, str) {
 
 		var deleteSermonModalInstance = $modal.open({
@@ -72,8 +106,8 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 	};
 });
 
-ccac.controller('AddSermonModalController', function($scope, $http, $log, $modalInstance) {
-
+ccac.controller('SermonModalController', function($scope, $http, $log, $modalInstance, modal, sermon) {
+	
 	$scope.accordion = {};
 	$scope.accordion.sermon = false;
 	$scope.accordion.bulletin = false;
@@ -81,11 +115,21 @@ ccac.controller('AddSermonModalController', function($scope, $http, $log, $modal
 	$scope.accordion.ppt = false;
 
 	$scope.formData = {};
-		
-	$scope.congregations = ['English', 'Cantonese', 'Mandarin'];
-	$scope.congregation = $scope.congregations[0];	
-	$scope.dt = null;
+	
+	$scope.modal = modal;
 
+	$scope.congregations = ['English', 'Cantonese', 'Mandarin'];
+	
+	if (sermon == undefined) {
+		$scope.congregation = $scope.congregations[0];	
+		$scope.dt = null;
+	} else {
+		$scope.congregation = sermon.congregation;	
+		$scope.dt = sermon.sermon_date.toDate();
+
+		$scope.title = sermon.title;
+	}
+	
 	$scope.progress_value = 0;	
 
 	$scope.open_calendar = function($event) {
@@ -275,6 +319,12 @@ Date.prototype.yyyymmdd = function() {
 	var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
 	var dd  = this.getDate().toString();
 	return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]); // padding
+};
+
+String.prototype.toDate = function() {
+	var d = new Date(this.substring(0,4) + "-" + this.substring(4,6) + "-" + this.substring(6,8));
+	d.setTime( d.getTime() + d.getTimezoneOffset()*60*1000 );
+	return d;
 };
 
 String.prototype.createKey = function(congregation, date_string, ext) {
