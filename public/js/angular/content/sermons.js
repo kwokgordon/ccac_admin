@@ -19,7 +19,7 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 	$scope.getSermons = function(congregation) {
 		$scope.congregation = congregation;
 
-		$http.post('/api/getSermons', {congregation: $scope.congregation})
+		$http.post('/api/sermons/getSermons', {congregation: $scope.congregation})
 			.success(function(data) {
 				$log.info(data);
 				
@@ -93,7 +93,7 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 
 		deleteSermonModalInstance.result.then(function(formData) {
 
-			$http.post('/api/deleteSermon', formData)
+			$http.post('/api/sermons/deleteSermon', formData)
 				.success(function(data) {
 					$log.info(data);
 					
@@ -152,7 +152,7 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 			return;
 		}
 
-		$http.get('/api/aws_key')
+		$http.get('/api/sermons/aws_key')
 			.success(function(data) {
 				// Configure The S3 Object 
 				AWS.config.update({ 
@@ -174,7 +174,7 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 							title: $scope[str] 
 						};
 											
-						$http.post('/api/updateSermon', $scope.formData)
+						$http.post('/api/sermons/updateSermon', $scope.formData)
 							.success(function(data) {
 								$log.info(data);
 								// Success!
@@ -217,7 +217,7 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 										
 								$scope.formData[str] = "https://s3-us-west-2.amazonaws.com/calgarychinesealliancechurch/" + params.Key;
 
-								$http.post('/api/updateSermon', $scope.formData)
+								$http.post('/api/sermons/updateSermon', $scope.formData)
 									.success(function(data) {
 										$log.info(data);
 									})

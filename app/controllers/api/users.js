@@ -11,7 +11,7 @@ var Invitation = require(path.join(__basedir, 'app/models/invitation'));
 
 module.exports = function(app, passport) {
 
-	app.namespace('/api', shared.isLoggedIn, shared.checkPermission(["users"]), function() {
+	app.namespace('/api/users', shared.isLoggedIn, shared.checkPermission(["users"]), function() {
 		
 		// User API - to get all users in the database
 		app.get('/getUsers', function(req, res) {

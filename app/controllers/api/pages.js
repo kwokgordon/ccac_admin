@@ -8,7 +8,7 @@ var Page = require(path.join(__basedir, 'app/models/page'));
 
 module.exports = function(app, passport) {
 
-	app.namespace('/api', shared.isLoggedIn, function() {
+	app.namespace('/api/pages', shared.isLoggedIn, function() {
 		
 		// Pages API - to get all the google doc pages in the database
 		app.get('/getPages', shared.checkPermission(["pages_admin","pages_edit"]), function(req, res) {

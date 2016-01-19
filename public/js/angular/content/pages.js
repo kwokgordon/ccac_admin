@@ -27,7 +27,7 @@ ccac.controller('PagesController', function ($scope, $http, $modal, $log) {
 	
 	$scope.getPages = function() {
 
-		$http.get('/api/getPages')
+		$http.get('/api/pages/getPages')
 			.success(function(data) {
 				$log.info(data);
 				$scope.pages= data;
@@ -52,7 +52,7 @@ ccac.controller('PagesController', function ($scope, $http, $modal, $log) {
 		addPageModalInstance.result.then(function(page) {
 		
 			if (page.path != "" && page.path != undefined) {
-				$http.post('/api/updatePage', {page: page})
+				$http.post('/api/pages/updatePage', {page: page})
 					.success(function(data) {
 						$log.info(data);
 						
@@ -83,7 +83,7 @@ ccac.controller('PagesController', function ($scope, $http, $modal, $log) {
 		editPageModalInstance.result.then(function(page) {
 		
 			if (page.path != "" && page.path != undefined) {
-				$http.post('/api/updatePage', {page: page})
+				$http.post('/api/pages/updatePage', {page: page})
 					.success(function(data) {
 						$log.info(data);
 						
@@ -110,7 +110,7 @@ ccac.controller('PagesController', function ($scope, $http, $modal, $log) {
 		
 		deletePageModalInstance.result.then(function(page) {
 	
-			$http.post('/api/deletePage', {page: page})
+			$http.post('/api/pages/deletePage', {page: page})
 				.success(function(data) {
 					$log.info(data);
 					

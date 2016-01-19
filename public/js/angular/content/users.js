@@ -25,7 +25,7 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 	
 	$scope.getUsers = function() {
 
-		$http.get('/api/getUsers')
+		$http.get('/api/users/getUsers')
 			.success(function(data) {
 				$log.info(data);
 				$scope.users = data.users;
@@ -37,7 +37,7 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 
 	$scope.getRoles = function() {
 
-		$http.get('/api/getRoles')
+		$http.get('/api/users/getRoles')
 			.success(function(data) {
 				$log.info(data);
 				
@@ -56,7 +56,7 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 
 	$scope.getInvitations = function() {
 
-		$http.get('/api/getInvitations')
+		$http.get('/api/users/getInvitations')
 			.success(function(data) {
 				$log.info(data);
 				$scope.invitations = data.invitations;
@@ -134,7 +134,7 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 			if(change != 'cancel') {
 				$log.info(change);
 
-				$http.post('/api/updateUser', {user: change})
+				$http.post('/api/users/updateUser', {user: change})
 					.success(function(data) {
 						$log.info(data);
 						$scope.messages = data.messages;
@@ -166,7 +166,7 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 		
 		deleteUserModalInstance.result.then(function(user) {
 		
-			$http.post('/api/deleteUser', {user: user})
+			$http.post('/api/users/deleteUser', {user: user})
 				.success(function(data) {
 					$log.info(data);
 					$scope.messages = data.messages;
@@ -193,7 +193,7 @@ ccac.controller('UsersController', function ($scope, $http, $modal, $log) {
 		
 		deleteInvitationModalInstance.result.then(function(invitation) {
 		
-			$http.post('/api/deleteInvitation', {invitation: invitation})
+			$http.post('/api/users/deleteInvitation', {invitation: invitation})
 				.success(function(data) {
 					$log.info(data);
 					$scope.messages = data.messages;
@@ -239,7 +239,7 @@ ccac.controller('AddUserModalController', function($scope, $http, $log, $modalIn
 	};
 	
 	$scope.add= function() {
-		$http.post('/api/addInvitation', {user: $scope.user})
+		$http.post('/api/users/addInvitation', {user: $scope.user})
 			.success(function(data) {
 				$log.info(data);
 				$scope.messages = data.messages;

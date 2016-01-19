@@ -10,7 +10,7 @@ var awsConfig = require(path.join(__basedir, 'config/aws.js'));
 
 module.exports = function(app, passport) {
 
-	app.namespace('/api', shared.isLoggedIn, shared.checkPermission(["sermons"]), function() {
+	app.namespace('/api/sermons', shared.isLoggedIn, shared.checkPermission(["sermons"]), function() {
 		
 		app.get('/aws_key', function(req, res) {
 			res.json({
