@@ -9,6 +9,22 @@
 
 	<div class="sidepage">
 		<h2 class="well">Uploads</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading">Upload Church Calendar</div>
+			<div class="panel-body">
+				<form>
+					<div class="form-group">
+						<div class="row">
+							File: <input name="file" type="file" file filetype="calendar" />
+						</div>
+						<div class="row">
+							<button type="submit" class="btn btn-primary btn-md" ng-click="upload_calendar()">Upload Calendar</button> 
+							Progress {{progress_value}} %
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 
 	</div>
 </div>
