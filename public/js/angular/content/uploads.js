@@ -45,20 +45,7 @@ ccac.controller('UploadsController', function ($scope, $http, $log) {
 							}
 							else {
 							
-								$scope.formData = {
-									congregation: $scope.congregation,
-									sermon_date: $scope.dt.yyyymmdd()
-								};
-										
 								$scope.formData[str] = "https://s3-us-west-2.amazonaws.com/calgarychinesealliancechurch/" + params.Key;
-
-								$http.post('/api/sermons/updateSermon', $scope.formData)
-									.success(function(data) {
-										$log.info(data);
-									})
-									.error(function(data) {
-										$log.info('Error: ' + data);
-									});		
 
 								// Success!
 								alert('Upload Done');
