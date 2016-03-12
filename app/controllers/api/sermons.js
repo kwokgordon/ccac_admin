@@ -48,6 +48,8 @@ module.exports = function(app, passport) {
 					for(var x in req.body) {
 						sermon[x] = req.body[x];
 					}
+
+					sermon.updated_tms = Date.now();
 					
 					sermon.save();
 

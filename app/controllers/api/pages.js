@@ -46,6 +46,7 @@ module.exports = function(app, passport) {
 					page.cht.doc_id = add_page.cht.doc_id;
 					page.chs.lang_path = add_page.chs.lang_path;
 					page.chs.doc_id = add_page.chs.doc_id;
+					page.updated_tms = Date.now();
 					
 					page.save();
 					

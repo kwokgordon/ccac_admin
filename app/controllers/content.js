@@ -25,6 +25,12 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/profile/calendars', shared.isLoggedIn, shared.checkPermission(["calendars"]), function(req, res) {
+        res.render('content/calendars', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+	
     app.get('/profile/sermons', shared.isLoggedIn, shared.checkPermission(["sermons"]), function(req, res) {
         res.render('content/sermons', {
             user : req.user // get the user out of session and pass to template

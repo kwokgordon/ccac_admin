@@ -1,0 +1,44 @@
+<div class="modal-header">
+	<span>Confirm Page Delete</span>
+</div>
+<div class="modal-body">
+	<div>
+		<div class="row">
+			<span class="col-md-3">Path: </span>
+			<span>{{page.path}}</span>
+		</div>
+		<p />
+		<div class="row">
+			<span class="col-md-3">Google Calendar: </span>
+			<span>{{page.google_calendar}}</span>
+		</div>
+		<p />
+		<div class="row">
+			<span class="col-md-3">ENG Path: </span>
+			<span>{{page.eng.lang_path}}</span>
+			<br />
+			<span class="col-md-3">ENG Doc_id: </span>
+			<span>{{page.eng.doc_id}}</span>
+		</div>
+		<p />
+		<div class="row">
+			<span class="col-md-3">CHT Path: </span>
+			<span>{{page.cht.lang_path}}</span>
+			<br />
+			<span class="col-md-3">CHT Doc_id: </span>
+			<span>{{page.cht.doc_id}}</span>
+		</div>
+		<p />
+		<div class="row">
+			<span class="col-md-3">CHS Path: </span>
+			<span>{{page.chs.lang_path}}</span>
+			<br />
+			<span class="col-md-3">CHS Doc_id: </span>
+			<span>{{page.chs.doc_id}}</span>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="deletePage()">Delete</button>
+	<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+</div>

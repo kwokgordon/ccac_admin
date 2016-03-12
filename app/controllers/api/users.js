@@ -62,6 +62,7 @@ module.exports = function(app, passport) {
 				if (user) {
 					user.role = update_user.role;
 					user.permissions = update_user.permissions;
+					user.updated_tms = Date.now();
 					
 					user.save();
 					
