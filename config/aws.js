@@ -3,7 +3,7 @@ var development = {
 		's3' : {
 			'bucket': 'calgarychinesealliancechurch',
 			'region': 'us-west-2',
-			'access_key': 'AKIAJX2R7YNMTQQJTMHA'
+			'access_key': 'AKIAIL2HUSLUJZ56FNOA'
 		}
 	}
 };
@@ -13,10 +13,9 @@ var production = {
 		's3' : {
 			'bucket': 'calgarychinesealliancechurch',
 			'region': 'us-west-2',
-			'access_key': 'AKIAJX2R7YNMTQQJTMHA'
+			'access_key': 'AKIAIL2HUSLUJZ56FNOA'
 		}
 	}
 };
 
 module.exports = process.env.NODE_ENV === 'development' ? development : production;
-
