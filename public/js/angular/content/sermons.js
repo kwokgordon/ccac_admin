@@ -11,18 +11,18 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 		{ title:'Cantonese', lang:'cht', id: 'cantonese' },
 		{ title:'Mandarin', lang:'chs', id: 'mandarin' }
 	];
-	
+
 	$scope.init = function() {
 		$scope.getSermons('English');
 	};
-	
+
 	$scope.getSermons = function(congregation) {
 		$scope.congregation = congregation;
 
 		$http.post('/api/sermons/getSermons', {congregation: $scope.congregation})
 			.success(function(data) {
 				$log.info(data);
-				
+
 				$scope.sermons = data;
 			})
 			.error(function(data) {
@@ -30,12 +30,12 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 			});
 	};
 
-	
+
 	$scope.addSermon = function() {
 
 		var sermon = {};
 		sermon.title = "";
-	
+
 		var addSermonModalInstance = $modal.open({
 			templateUrl: '/ng-template/content/sermons/sermonModal.html',
 			controller: 'SermonModalController',
@@ -51,10 +51,10 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 
 		addSermonModalInstance.result.then(function(sermon) {
 			$scope.getSermons($scope.congregation);
-		});		
+		});
 	}
 
-	
+
 	$scope.editSermon = function(sermon) {
 
 		var editSermonModalInstance = $modal.open({
@@ -72,10 +72,10 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 
 		editSermonModalInstance.result.then(function(sermon) {
 			$scope.getSermons($scope.congregation);
-		});		
+		});
 	}
 
-	
+
 	$scope.deleteSermon = function(sermon, str) {
 
 		var deleteSermonModalInstance = $modal.open({
@@ -96,18 +96,18 @@ ccac.controller('SermonsController', function ($scope, $http, $modal, $log) {
 			$http.post('/api/sermons/deleteSermon', formData)
 				.success(function(data) {
 					$log.info(data);
-					
+
 					$scope.getSermons($scope.congregation);
 				})
 				.error(function(data) {
 					$log.info("Error: " + data);
 				});
-		});		
+		});
 	};
 });
 
 ccac.controller('SermonModalController', function($scope, $http, $log, $modalInstance, modal, sermon) {
-	
+
 	$scope.accordion = {};
 	$scope.accordion.sermon = false;
 	$scope.accordion.bulletin = false;
@@ -115,22 +115,22 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 	$scope.accordion.ppt = false;
 
 	$scope.formData = {};
-	
+
 	$scope.modal = modal;
 
 	$scope.congregations = ['English', 'Cantonese', 'Mandarin'];
-	
+
 	if (sermon == undefined) {
-		$scope.congregation = $scope.congregations[0];	
+		$scope.congregation = $scope.congregations[0];
 		$scope.dt = null;
 	} else {
-		$scope.congregation = sermon.congregation;	
+		$scope.congregation = sermon.congregation;
 		$scope.dt = sermon.sermon_date.toDate();
 
 		$scope.title = sermon.title;
 	}
-	
-	$scope.progress_value = 0;	
+
+	$scope.progress_value = 0;
 
 	$scope.open_calendar = function($event) {
 		$event.preventDefault();
@@ -143,9 +143,9 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 		formatYear: 'yy',
 		startingDay: 0
 	};
-		
+
 	$scope.upload = function(str) {
-	
+
 		if(!$scope.dt) {
 			// No Date Selected
 			alert('No Date Selected');
@@ -154,9 +154,9 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 
 		$http.get('/api/sermons/aws_key')
 			.success(function(data) {
-				// Configure The S3 Object 
-				AWS.config.update({ 
-					accessKeyId: data.aws.accessKeyId, 
+				// Configure The S3 Object
+				AWS.config.update({
+					accessKeyId: data.aws.accessKeyId,
 					secretAccessKey: data.aws.secretAccessKey,
 					httpOptions: {
 						timeout: 600000
@@ -164,36 +164,36 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 				});
 				AWS.config.region = data.aws.s3.region;
 				var bucket = new AWS.S3({ params: { Bucket: data.aws.s3.bucket } });
-								
+
 				if($scope[str]) {
 					// Title
 					if(str == "title") {
 						$scope.formData = {
 							congregation: $scope.congregation,
 							sermon_date: $scope.dt.yyyymmdd(),
-							title: $scope[str] 
+							title: $scope[str]
 						};
-											
+
 						$http.post('/api/sermons/updateSermon', $scope.formData)
 							.success(function(data) {
 								$log.info(data);
 								// Success!
 								alert('Upload Done');
-								return;	
+								return;
 							})
 							.error(function(data) {
 								$log.info('Error: ' + data);
 								// Error!
 								alert('Upload Error');
-								return;	
-							});		
+								return;
+							});
 					}
 					else {
-						var params = { 
+						var params = {
 							ACL: "public-read",
 							Key: str.createKey($scope.congregation, $scope.dt.yyyymmdd(), $scope[str].name.split('.').pop()),
-							ContentType: $scope[str].type, 
-							Body: $scope[str] 
+							ContentType: $scope[str].type,
+							Body: $scope[str]
 						};
 
 						// Upload to bucket
@@ -202,19 +202,19 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 								// There Was An Error With Your S3 Config
 								console.log(err, err.stack);
 								alert(err.message);
-								
+
 								$log.info(AWS.config);
 								$log.info(bucket);
-								
+
 								return false;
 							}
 							else {
-							
+
 								$scope.formData = {
 									congregation: $scope.congregation,
 									sermon_date: $scope.dt.yyyymmdd()
 								};
-										
+
 								$scope.formData[str] = "https://s3-us-west-2.amazonaws.com/calgarychinesealliancechurch/" + params.Key;
 
 								$http.post('/api/sermons/updateSermon', $scope.formData)
@@ -223,7 +223,7 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 									})
 									.error(function(data) {
 										$log.info('Error: ' + data);
-									});		
+									});
 
 								// Success!
 								alert('Upload Done');
@@ -247,8 +247,8 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 				$log.info('Error: ' + data);
 				// Can't get AWS key
 				alert('Failed getting AWS key');
-			});	
-	}	
+			});
+	}
 
 	$scope.upload_all = function() {
 		if(!$scope.dt) {
@@ -261,13 +261,13 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 
 		for(var i = 0; i < temp_array.length; i++) {
 			var str = temp_array[i];
-			
+
 			if($scope[str]) {
 				$scope.upload(str);
 			}
 		}
 	}
-	
+
 	$scope.done = function() {
 		$modalInstance.close('done');
 	};
@@ -288,7 +288,7 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 				scope.$parent.file = file;
 				scope.$parent.filetype = scope.filetype;
 				scope.$parent[scope.filetype] = scope.file;
-				scope.$apply();				
+				scope.$apply();
 			});
 		}
 	};
@@ -296,7 +296,7 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 
 
 ccac.controller('DeleteSermonModalController', function($scope, $log, $modalInstance, sermon, str) {
-	
+
 	$scope.formData = {};
 	$scope.formData.sermon = sermon;
 	$scope.formData.str = str;
@@ -308,7 +308,7 @@ ccac.controller('DeleteSermonModalController', function($scope, $log, $modalInst
 	$scope.cancel= function() {
 		$modalInstance.dismiss('cancel');
 	};
-	
+
 });
 
 
@@ -328,5 +328,5 @@ String.prototype.toDate = function() {
 };
 
 String.prototype.createKey = function(congregation, date_string, ext) {
-	return "SundayService/" + congregation + "/" + date_string + "/" + date_string + "_" + congregation + "_" + this + "." + ext;	
+	return "SundayService/" + congregation + "/" + date_string + "/" + date_string + "_" + congregation + "_" + this + "." + ext;
 };
