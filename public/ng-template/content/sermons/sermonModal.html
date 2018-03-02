@@ -3,7 +3,7 @@
 	<span ng-if="modal == 'edit'">Edit Sermon</span>
 
 	<button class="btn btn-primary right" ng-click="done()">Done</button>
-	
+
 </div>
 <div class="modal-body">
 	<div class="row">
@@ -11,9 +11,9 @@
 			<label>Congregation:</label> <select class="form-control" ng-model="congregation" ng-options="c for c in congregations"><option></option></select>
 		</div>
 		<div class="col-md-6">
-			<label>Sermon Date:</label> 
+			<label>Sermon Date:</label>
 			<p class="input-group">
-				<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dt" 
+				<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="dt"
 				is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
 				<span class="input-group-btn">
 					<button type="button" class="btn btn-default" ng-click="open_calendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -31,7 +31,16 @@
 						Title: <input type="input" class="input-md text-center" placeholder="File name" ng-model="title" ></input>
 					</div>
 					<div class="row">
-						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('title')">Upload Title</button> 
+						Speaker: <input type="input" class="input-md text-center" placeholder="File name" ng-model="speaker" ></input>
+					</div>
+					<div class="row">
+						Bible Verses: <input type="input" class="input-md text-center" placeholder="File name" ng-model="bible_verses" ></input>
+					</div>
+					<div class="row">
+						Sermon Series: <input type="input" class="input-md text-center" placeholder="File name" ng-model="sermon_series" ></input>
+					</div>
+					<div class="row">
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('title')">Upload Title</button>
 						Progress {{progress_value}} %
 					</div>
 				</div>
@@ -42,14 +51,14 @@
 						File: <input name="file" type="file" file filetype="sermon" />
 					</div>
 					<div class="row">
-						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('sermon')">Upload Sermon</button> 
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('sermon')">Upload Sermon</button>
 						Progress {{progress_value}} %
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-	
+
 	<div class="panel panel-default">
 		<div class="panel-heading">Upload Bulletin</div>
 		<div class="panel-body">
@@ -59,7 +68,7 @@
 						File: <input name="file" type="file" file filetype="bulletin" />
 					</div>
 					<div class="row">
-						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('bulletin')">Upload Bulletin</button> 
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('bulletin')">Upload Bulletin</button>
 						Progress {{progress_value}} %
 					</div>
 				</div>
@@ -76,7 +85,7 @@
 						File: <input name="file" type="file" file filetype="life_group" />
 					</div>
 					<div class="row">
-						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('life_group')">Upload Life Group</button> 
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('life_group')">Upload Life Group</button>
 						Progress {{progress_value}} %
 					</div>
 				</div>
@@ -93,7 +102,7 @@
 						File: <input name="file" type="file" file filetype="ppt" />
 					</div>
 					<div class="row">
-						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('ppt')">Upload PowerPoint</button> 
+						<button type="submit" class="btn btn-primary btn-md" ng-click="upload('ppt')">Upload PowerPoint</button>
 						Progress {{progress_value}} %
 					</div>
 				</div>

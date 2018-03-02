@@ -124,10 +124,11 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 		$scope.congregation = $scope.congregations[0];
 		$scope.dt = null;
 	} else {
-		$scope.congregation = sermon.congregation;
 		$scope.dt = sermon.sermon_date.toDate();
 
-		$scope.title = sermon.title;
+		for(var x in sermon) {
+			$scope[x] = sermon[x];
+		}
 	}
 
 	$scope.progress_value = 0;
@@ -143,6 +144,55 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 		formatYear: 'yy',
 		startingDay: 0
 	};
+
+	$scope.uploadToMongo = function() {
+		$http.post('/api/sermons/updateSermon', $scope.formData)
+			.success(function(data) {
+				$log.info(data);
+				// Success!
+				alert('Upload Done');
+			})
+			.error(function(data) {
+				$log.info('Error: ' + data);
+				// Error!
+				alert('Upload Error');
+			});
+	}
+
+	$scope.uploadToBucket = function(AWS, bucket, str) {
+		var params = {
+			ACL: "public-read",
+			Key: str.createKey($scope.congregation, $scope.dt.yyyymmdd(), $scope[str].name.split('.').pop()),
+			ContentType: $scope[str].type,
+			Body: $scope[str]
+		};
+
+		// Upload to bucket
+		bucket.putObject(params, function(err, data) {
+			if(err) {
+				// There Was An Error With Your S3 Config
+				console.log(err, err.stack);
+				alert(err.message);
+
+				$log.info(AWS.config);
+				$log.info(bucket);
+
+				return false;
+			}
+			else {
+				$scope.formData[str] = "https://s3-us-west-2.amazonaws.com/calgarychinesealliancechurch/" + params.Key;
+				$scope.uploadToMongo();
+			}
+		})
+		.on('httpUploadProgress',function(progress) {
+			// Log Progress Information
+//							$log.info(progress);
+			$scope.progress_value = Math.round(progress.loaded / progress.total * 100);
+			$scope.$apply();
+
+		});
+
+	}
 
 	$scope.upload = function(str) {
 
@@ -166,76 +216,34 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 				var bucket = new AWS.S3({ params: { Bucket: data.aws.s3.bucket } });
 
 				if($scope[str]) {
+					$scope.formData = {
+						congregation: $scope.congregation,
+						sermon_date: $scope.dt.yyyymmdd()
+					};
+
 					// Title
 					if(str == "title") {
-						$scope.formData = {
-							congregation: $scope.congregation,
-							sermon_date: $scope.dt.yyyymmdd(),
-							title: $scope[str]
-						};
+						// Title
+						$scope.formData[str] = $scope[str];
 
-						$http.post('/api/sermons/updateSermon', $scope.formData)
-							.success(function(data) {
-								$log.info(data);
-								// Success!
-								alert('Upload Done');
-								return;
-							})
-							.error(function(data) {
-								$log.info('Error: ' + data);
-								// Error!
-								alert('Upload Error');
-								return;
-							});
+						// Other info
+						var temp_array = ["speaker","bible_verses","sermon_series"];
+						for(var i = 0; i < temp_array.length; i++) {
+							if($scope[temp_array[i]]) {
+								$scope.formData[temp_array[i]] = $scope[temp_array[i]];
+							}
+						}
+
+						// Sermon Series Image
+						if($scope["sermon_series_image_url"]) {
+							$scope.uploadToBucket(AWS, bucket, "sermon_series_image_url");
+						}
+						else {
+							$scope.uploadToMongo();
+						}
 					}
 					else {
-						var params = {
-							ACL: "public-read",
-							Key: str.createKey($scope.congregation, $scope.dt.yyyymmdd(), $scope[str].name.split('.').pop()),
-							ContentType: $scope[str].type,
-							Body: $scope[str]
-						};
-
-						// Upload to bucket
-						bucket.putObject(params, function(err, data) {
-							if(err) {
-								// There Was An Error With Your S3 Config
-								console.log(err, err.stack);
-								alert(err.message);
-
-								$log.info(AWS.config);
-								$log.info(bucket);
-
-								return false;
-							}
-							else {
-
-								$scope.formData = {
-									congregation: $scope.congregation,
-									sermon_date: $scope.dt.yyyymmdd()
-								};
-
-								$scope.formData[str] = "https://s3-us-west-2.amazonaws.com/calgarychinesealliancechurch/" + params.Key;
-
-								$http.post('/api/sermons/updateSermon', $scope.formData)
-									.success(function(data) {
-										$log.info(data);
-									})
-									.error(function(data) {
-										$log.info('Error: ' + data);
-									});
-
-								// Success!
-								alert('Upload Done');
-							}
-						})
-						.on('httpUploadProgress',function(progress) {
-							// Log Progress Information
-//							$log.info(progress);
-							$scope.progress_value = Math.round(progress.loaded / progress.total * 100);
-							$scope.$apply();
-
-						});
+						$scope.uploadToBucket(AWS, bucket, str);
 					}
 				}
 				else {
