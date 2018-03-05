@@ -49,6 +49,10 @@ module.exports = function(app, passport) {
 						sermon[x] = req.body[x];
 					}
 
+					if(sermon['bible_verses'] != undefined) {
+						sermon['bible_verses'] = sermon['bible_verses'].replace('：', ':').replace('－', '-').replace('，', ',');
+					}
+
 					sermon.save();
 
 					res.json(sermon);
@@ -58,8 +62,10 @@ module.exports = function(app, passport) {
 						new_sermon[x] = req.body[x];
 					}
 
-//					console.log(new_sermon);
-
+					if(new_sermon['bible_verses'] != undefined) {
+						new_sermon['bible_verses'] = new_sermon['bible_verses'].replace('：', ':').replace('－', '-').replace('，', ',');
+					}
+					
 					Sermon.create(new_sermon, function(err, sermon) {
 						if (err)
 							res.send(err)
