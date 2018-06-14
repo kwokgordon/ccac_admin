@@ -9,6 +9,37 @@ var config = require(path.join(__basedir, 'config/nodemailer.js'));
 
 module.exports = function(app, passport) {
 
+	app.post('/sendFeedback', function(req, res) {
+		let transporter = nodemailer.createTransport({
+			host: 'smtp.gmail.com',
+			port: 587,
+			secure: false,
+			auth: {
+				user: process.env.EMAIL_USER,
+				pass: process.env.EMAIL_PASSWORD
+			}
+		});
+
+		let mailOptions = {
+			from: req.body.from,
+			to: req.body.to,
+			subject: req.body.subject,
+			text: req.body.text,
+		};
+		
+		transporter.sendMail(mailOptions, function(err, mail) {
+			if (err) {
+				console.log("In Error");
+				console.log(err);
+				res.send(err);
+			}
+				
+			var result = {mail: mail, messages:{info:"Feedback to " + req.body.to + " is sent." }};
+			res.json(result);
+		});
+		
+	});
+
 	app.namespace('/email', shared.isLoggedIn, nodemailerInit, function() {
 
 		// first page after login successful
@@ -52,3 +83,4 @@ nodemailerInit = function(req, res, next) {
 
 	return next();
 }
+
