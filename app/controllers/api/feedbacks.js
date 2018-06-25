@@ -20,5 +20,20 @@ module.exports = function(app, passport) {
 			});
 		});
 
+		app.post('/deleteFeedback', function(req, res) {
+			Feedback.findOne({_id: req.body.id}, function(err, feedback) {
+				if (err)
+					res.send(err);
+
+				feedback.remove(function(err, feedback) {
+					if (err)
+						res.send(err);
+
+					res.json(feedback);
+				});
+			});
+
+		});
+
 	});
 }

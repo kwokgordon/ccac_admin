@@ -17,5 +17,18 @@ ccac.controller('FeedbacksController', function ($scope, $http, $modal, $log) {
 			});
 	};
 
+	$scope.deleteFeedback = function(id) {
+		if(confirm("Delete message?")) {
+			$http.post('/api/feedbacks/deleteFeedback', {id: id})
+				.success(function(data) {
+					$log.info(data);
+					$scope.getFeedbacks();
+				})
+				.error(function(data) {
+					$log.info("Error: " + data);
+				});
+		}
+	};
+
 })
 

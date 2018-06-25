@@ -17,12 +17,16 @@
 				<th>Name</th>
 				<th>Message</th>
 				<th>Time</th>
+				<th>Delete</th>
 			</tr>
 			<tr ng-repeat="feedback in feedbacks">
 				<td>{{ feedback.title }}</td>
 				<td>{{ feedback.name }}</td>
 				<td>{{ feedback.message }}</td>
 				<td>{{ feedback.created_tms }}</td>
+				<td>
+					<span class="glyphicon glyphicon-trash" ng-click="deleteFeedback(feedback._id)" ></span>
+				</td>
 			</tr>
 		</table>
 
