@@ -23,7 +23,7 @@ module.exports = {
 				if (req.user.role == "admin" || req.user.permissions.indexOf(permissions[i]) != -1)
 					access = true;
 			}
-			
+	
 			if (access) 
 				return next();
 			else

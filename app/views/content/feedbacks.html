@@ -1,0 +1,32 @@
+<% include ./layout/header.html %>
+
+<script src="/js/angular/content/feedbacks.js"></script>
+
+<div class="container" ng-app="ccacAdminApp" ng-controller="FeedbacksController">
+<div ng-init="init()" ></div>
+
+<% include ./sidebar.html %>
+
+	<div class="sidepage">
+		<h2 class="well">Feedbacks</h2>
+
+		<!-- Table for Users -->
+		<table class="table table-borderd table-hover">
+			<tr>
+				<th>Title</th>
+				<th>Name</th>
+				<th>Message</th>
+				<th>Time</th>
+			</tr>
+			<tr ng-repeat="feedback in feedbacks">
+				<td>{{ feedback.title }}</td>
+				<td>{{ feedback.name }}</td>
+				<td>{{ feedback.message }}</td>
+				<td>{{ feedback.created_tms }}</td>
+			</tr>
+		</table>
+
+	</div>
+</div>
+
+<% include ./layout/footer.html %>

@@ -37,6 +37,12 @@ module.exports = function(app, passport) {
         });
     });
 	
+    app.get('/profile/feedbacks', shared.isLoggedIn, shared.checkPermission(["feedbacks"]), function(req, res) {
+        res.render('content/feedbacks', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+	
     app.get('/no_permission', shared.isLoggedIn, function(req, res) {
         res.render('content/no_permission', {
             user : req.user // get the user out of session and pass to template

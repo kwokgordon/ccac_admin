@@ -53,6 +53,7 @@ require(path.join(__basedir, 'app/controllers/api/users'))(app, passport);
 require(path.join(__basedir, 'app/controllers/api/pages'))(app, passport);
 require(path.join(__basedir, 'app/controllers/api/sermons'))(app, passport);
 require(path.join(__basedir, 'app/controllers/api/uploads'))(app, passport);
+require(path.join(__basedir, 'app/controllers/api/feedbacks'))(app, passport);
 
 ////////////////////////////////////////////////////////////////////
 
