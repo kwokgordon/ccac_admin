@@ -160,6 +160,9 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 	}
 
 	$scope.uploadToBucket = function(AWS, bucket, str) {
+		console.log("str");
+		console.log(str);
+
 		var params = {
 			ACL: "public-read",
 			Key: str.createKey($scope.congregation, $scope.dt.yyyymmdd(), $scope[str].name.split('.').pop()),
@@ -169,6 +172,9 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 
 		// Upload to bucket
 		bucket.putObject(params, function(err, data) {
+			console.log("bucket");
+			console.log(bucket);
+			console.log(bucket.config.params.Bucket);
 			if(err) {
 				// There Was An Error With Your S3 Config
 				console.log(err, err.stack);
@@ -180,7 +186,7 @@ ccac.controller('SermonModalController', function($scope, $http, $log, $modalIns
 				return false;
 			}
 			else {
-				$scope.formData[str] = "https://s3-us-west-2.amazonaws.com/calgarychinesealliancechurch/" + params.Key;
+				$scope.formData[str] = "https://s3-us-west-2.amazonaws.com/" + bucket.config.params.Bucket + "/" + params.Key;
 				$scope.uploadToMongo();
 			}
 		})

@@ -16,4 +16,4 @@ var production = {
 	}
 };
 
-module.exports = process.env.NODE_ENV === 'development' ? development : production;
+module.exports = process.env.NODE_ENV === 'production' ? production : development;

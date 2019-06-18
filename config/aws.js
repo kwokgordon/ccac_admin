@@ -1,7 +1,7 @@
 var development = {
 	'aws' : {
 		's3' : {
-			'bucket': 'calgarychinesealliancechurch',
+			'bucket': 'calgarychinesealliancechurchdev',
 			'region': 'us-west-2',
 			'access_key': 'AKIAIL2HUSLUJZ56FNOA'
 		}
@@ -18,4 +18,4 @@ var production = {
 	}
 };
 
-module.exports = process.env.NODE_ENV === 'development' ? development : production;
+module.exports = process.env.NODE_ENV === 'production' ? production : development;
