@@ -6,7 +6,7 @@ const config = {
 	},
 	'testing': {
 		'db': {
-			'mongo': 'mongodb://ccac:ccac@127.0.0.1:27017/CCAC_TEST'
+			'mongo': 'mongodb://ccac:ccac@34.83.180.173:27017/CCAC_TEST'
 		}
 	},
 	'production': {
