@@ -2,7 +2,7 @@ var development = {
 	'googleAuth' : {
 		'clientID'      : '309887982453-rsvvdnv8i8s5kdqlg6secruves71pl8r.apps.googleusercontent.com',
 		'clientSecret'  : 'hA6OjROzelJAUunFTJNdZuK_',
-		'callbackURL'   : 'http://localhost:3100/auth/google/callback'
+		'callbackURL'   : 'http://dev.calgarychinesealliance.org/auth/google/callback'
 	}
 };
 
