@@ -1,5 +1,6 @@
 var path = require('path');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var GoogleStrategy = require('passport-google-oauth20');
+// var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // load User model
 var User = require(path.join(__basedir, 'app/models/user'));
@@ -40,7 +41,7 @@ module.exports = function(passport) {
 		// make the code asynchronous
 		// User.findOne won't fire until we have all our data back from Google
 		process.nextTick(function() {
-
+	
 			// try to find the user based on their google id
 			User.findOne({ 'google.id' : profile.id }, function(err, user) {
 				if (err)

@@ -22,7 +22,10 @@ var db = require(path.join(__basedir, 'config/db.js'));
 console.log("Mongo: " + db.db.mongo);
 
 // DB config
-mongoose.connect(db.db.mongo);
+mongoose.connect(db.db.mongo, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 // view engine setup
 app.engine('html', ejs.renderFile);
@@ -32,19 +35,24 @@ app.set('views', path.join(__basedir, 'app/views'));
 app.use(favicon(path.join(__basedir, 'public/img/favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__basedir, 'public')));
 
 // require for passport
 require(path.join(__basedir, 'config/passport.js'))(passport); // pass passport for configuration
-app.use(session({ secret: 'calgarychinesealliancechurch' })); // session secret
+app.use(session({ 
+    secret: 'calgarychinesealliancechurch',
+    resave: true,
+    saveUninitialized: true,
+ })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 ////////////////////////////////////////////////////////////////////
 // Routes
+var configAuth = require(path.join(__basedir, 'config/auth.js'));
 
 require(path.join(__basedir, 'app/controllers/routes'))(app, passport);
 require(path.join(__basedir, 'app/controllers/content'))(app, passport);
@@ -70,6 +78,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
+        console.log("Error: " , err);
         res.status(err.status || 500);
         res.render('main/error', {
             message: err.message,
@@ -81,6 +90,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+    console.log("Error: " , err);
     res.status(err.status || 500);
     res.render('main/error', {
         message: err.message,
